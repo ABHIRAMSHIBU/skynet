@@ -1,0 +1,318 @@
+#!/system/etc/Sky/skybox sh
+# PROJECT SKYNET 
+# Copyright CYBERDYNE (C) 2016 K1ks
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+skybox=/system/etc/Sky/skybox
+
+$skybox clear
+id=$(id); id=${id#*=}; id=${id%%[\( ]*}
+if [ "$id" = "0" ] || [ "$id" = "root" ]; then
+$skybox echo ""
+$skybox sleep 0.1
+else
+$skybox echo -e "\e[1;31m =======* Nop !! No Root Found...\e[0m"
+$skybox echo -e "\e[1;31m =======* Type 'su' before...\e[0m"
+$skybox sleep 2
+fi;
+if [ -e /system/etc/init.d ]; then
+$skybox sleep 0.1
+else
+$skybox echo -e "\e[1;31m =======* Support Init.d Not Found...\e[0m"
+$skybox sleep 2
+fi;
+
+if [ -e /system/etc/init.d/SKYNET1 ]; then
+profil="\e[1;32mBATTERY\e[0m"
+elif [ -e /system/etc/init.d/SKYNET2 ]; then
+profil="\e[1;32mBALANCE\e[0m"
+elif [ -e /system/etc/init.d/SKYNET3 ]; then
+profil="\e[1;32mGAME\e[0m"
+else
+profil="\e[1;32mNOT ACTIVATED\e[0m"
+fi;
+
+Ver=TH1
+Entro=`$skybox cat /proc/sys/kernel/random/entropy_avail`
+Core=`$skybox cat /sys/devices/system/cpu/online`
+Possible=`$skybox cat /sys/devices/system/cpu/possible`
+if [ -e /system/etc/hosts.bak ]; then
+ads="\e[1;32mON\e[0m"
+else
+ads="\e[1;31mOFF\e[0m"
+fi;
+box=`$skybox | $skybox awk 'NR==1{print $2}'`
+$skybox sleep 0.5
+$skybox clear
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e "  \e[1;37m ===========* PROJECT_SKYNET_GENISYS TX7 *============\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e " \e[1;31m   =============* SKYNET CONTROL CENTER *===============\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e "          \e[1;36mNeural Net-Based Artificial Intelligence\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e "        Release $Ver / Entro : $Entro / KillAds : $ads"
+$skybox echo "             Cores : $Core Online On $Possible Present"
+$skybox echo ""
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo "                   1 - CHECK..."
+$skybox echo "                   2 - BACKGROUND APP..."
+$skybox echo "                   3 - SYSTEM OPTIMIZER..."
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo "                   4 - NEED FOR SPEED SKYNET..."
+$skybox echo -e "                   5 - SKYNET MODE ...| $profil" 
+$skybox echo "                   6 - EXTRAS..."
+$skybox echo "                   7 - KILLADS..."
+$skybox echo "                   8 - OUT OF ORDER SKYNET..."
+$skybox echo "                   9 - REBOOT DEVICE..."
+$skybox echo "                  10 - REBOOT RECOVERY..."
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo "                  11 - ACCESS XDA THREAD..."
+$skybox echo "                  12 - SUPER SU..."
+$skybox echo "                  13 - DONATIONS..."
+$skybox echo "                  14 - EXIT...     "
+$skybox echo "                  15 - UNINSTALL..."
+$skybox echo -e "\e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e "          \e[1;32m...SKYBOX VERSION : $box\e[0m"
+$skybox echo ""
+$skybox echo -e "                   \e[1;36mCopyright 2016 By K1ks\e[0m"
+$skybox echo ""
+$skybox echo -n "               ...What Do You Want To Do..?"                
+read character
+case $character in 
+1) $skybox clear
+$skybox sh system/bin/scan
+$skybox echo ""
+$skybox sleep 1
+$skybox echo ""
+$skybox echo -n "                    Come back to menu?
+[ Yes = 1 | No = 2 ]: "
+read option
+if [ $option -ne 1 ]; then
+$skybox echo ""
+$skybox echo "                          Exiting Now"
+$skybox sleep 1
+exit
+else
+$skybox echo ""
+sh system/bin/menu
+$skybox sleep 1
+fi
+$skybox clear ;;
+
+2) $skybox clear;
+$skybox sh system/bin/oom
+$skybox echo ""
+$skybox sleep 1
+$skybox echo ""
+$skybox echo -n "                   Come back to menu?
+[ Yes = 1 | No = 2 ]: "
+read option
+if [ $option -ne 1 ]; then
+$skybox echo ""
+$skybox echo "                         Exiting Now"
+$skybox sleep 1
+exit
+else
+$skybox echo ""
+sh system/bin/menu
+$skybox sleep 1
+fi
+$skybox clear ;;
+
+3) $skybox clear;
+$skybox sh system/bin/boost 2>/dev/null
+$skybox echo ""
+$skybox sleep 1
+$skybox echo ""
+$skybox echo -n "                   Come back to menu?
+[ Yes = 1 | No = 2 ]: "
+read option
+if [ $option -ne 1 ]; then
+$skybox echo ""
+$skybox echo "                         Exiting Now"
+$skybox sleep 1
+exit
+else
+$skybox echo ""
+sh system/bin/menu
+$skybox sleep 1
+fi
+$skybox clear ;;
+
+4) $skybox clear
+$skybox sh system/bin/sky
+$skybox echo ""
+$skybox sleep 1
+$skybox echo ""
+$skybox echo -n "                    Come back to menu?
+[ Yes = 1 | No = 2 ]: "
+read option
+if [ $option -ne 1 ]; then
+$skybox echo ""
+$skybox echo "                          Exiting Now"
+$skybox sleep 1
+exit
+else
+$skybox echo ""
+sh system/bin/menu
+$skybox sleep 1
+fi
+$skybox clear ;;
+
+5) $skybox clear;
+$skybox sh system/bin/profil
+$skybox echo ""
+$skybox sleep 1
+$skybox echo ""
+$skybox echo -n "                   Come back to menu?
+[ Yes = 1 | No = 2 ]: "
+read option
+if [ $option -ne 1 ]; then
+$skybox echo ""
+$skybox echo "                         Exiting Now"
+$skybox sleep 1
+exit
+else
+$skybox echo ""
+sh system/bin/menu
+$skybox sleep 1
+fi
+$skybox clear ;;
+
+6) $skybox clear;
+$skybox sh system/bin/mode
+$skybox echo ""
+$skybox sleep 1
+$skybox echo ""
+$skybox echo -n "                   Come back to menu?
+[ Yes = 1 | No = 2 ]: "
+read option
+if [ $option -ne 1 ]; then
+$skybox echo ""
+$skybox echo "                         Exiting Now"
+$skybox sleep 1
+exit
+else
+$skybox echo ""
+sh system/bin/menu
+$skybox sleep 1
+fi
+$skybox clear ;;
+
+7) $skybox clear;
+$skybox sh system/bin/adn
+$skybox echo ""
+$skybox sleep 1
+$skybox echo ""
+$skybox echo -n "                   Come back to menu?
+[ Yes = 1 | No = 2 ]: "
+read option
+if [ $option -ne 1 ]; then
+$skybox echo ""
+$skybox echo "                         Exiting Now"
+$skybox sleep 1
+exit
+else
+$skybox echo ""
+sh system/bin/menu
+$skybox sleep 1
+fi
+$skybox clear ;;
+
+8) $skybox clear
+$skybox sh system/bin/out
+$skybox echo ""
+$skybox sleep 1
+$skybox echo ""
+$skybox echo -n "                    Come back to menu?
+[ Yes = 1 | No = 2 ]: "
+read option
+if [ $option -ne 1 ]; then
+$skybox echo ""
+$skybox echo "                          Exiting Now"
+$skybox sleep 1
+exit
+else
+$skybox echo ""
+sh system/bin/menu
+$skybox sleep 1
+fi
+$skybox clear ;;
+
+9) $skybox clear;
+$skybox echo ""
+$skybox echo "                                               3"
+$skybox sleep 1
+$skybox echo ""
+$skybox echo "        2"
+$skybox echo ""
+$skybox sleep 1
+$skybox echo "                                 1"
+$skybox echo ""
+$skybox sleep 1
+$skybox echo "                        Reboot Device Now"
+$skybox echo ""
+$skybox sleep 2
+reboot
+$skybox clear ;;
+
+10) $skybox clear;
+$skybox echo ""
+$skybox echo "                                               3"
+$skybox sleep 1
+$skybox echo ""
+$skybox echo "        2"
+$skybox echo ""
+$skybox sleep 1
+$skybox echo "                                 1"
+$skybox echo ""
+$skybox sleep 1
+$skybox echo "                        Reboot Recovery Now"
+$skybox echo ""
+$skybox sleep 2
+reboot
+$skybox clear ;;
+
+11) $skybox clear;
+$skybox echo "";
+$skybox sleep 1
+su -c "LD_LIBRARY_PATH=/vendor/lib:/system/lib am start http://forum.xda-developers.com/android/software-hacking/android-l-booster-1-soon-t3030796"
+$skybox clear ;;
+
+12) $skybox clear;
+$skybox echo "";
+$skybox sleep 1
+su -c "LD_LIBRARY_PATH=/vendor/lib:/system/lib am start http://forum.xda-developers.com/apps/supersu"
+$skybox clear ;;
+
+13) $skybox clear;
+$skybox echo "";
+$skybox sleep 1
+su -c "LD_LIBRARY_PATH=/vendor/lib:/system/lib am start http://forum.xda-developers.com/showpost.php?p=54013089&postcount=4"
+$skybox clear ;;
+
+15) $skybox clear;
+$skybox sh system/bin/no_mod
+$skybox clear ;;
+
+14) exit
+;;
+
+*) $skybox clear;
+$skybox echo "                     Exit,Invalid Option"
+sleep 1
+esac
+echo ""
+exit

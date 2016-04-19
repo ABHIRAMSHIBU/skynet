@@ -1,0 +1,153 @@
+#!/system/etc/Sky/skybox sh
+# PROJECT SKYNET
+# Copyright CYBERDYNE (C) 2016 K1ks
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+export PATH=/system/etc/Sky:$PATH:/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin:
+
+skybox=/system/etc/Sky/skybox
+
+$skybox mount -o remount,rw / 2>/dev/null
+$skybox mount -o remount,rw / / 2>/dev/null
+$skybox mount -o remount,rw rootfs 2>/dev/null
+$skybox mount -o remount,rw /system 2>/dev/null
+$skybox mount -o remount,rw /system /system 2>/dev/null
+
+mount -o remount,rw / 2>/dev/null
+mount -o remount,rw / / 2>/dev/null
+mount -o remount,rw rootfs 2>/dev/null
+mount -o remount,rw /system 2>/dev/null
+mount -o remount,rw /system /system 2>/dev/null
+
+$skybox clear
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e "  \e[1;37m ===========* PROJECT_SKYNET_GENISYS TX7 *============\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e " \e[1;31m   =============* UNINSTALLER CONTROL *===============\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox sleep 1
+$skybox echo ""
+$skybox echo "        Sequential StartUp Of The Uninstall Process"
+$skybox sleep 1
+$skybox echo ""
+$skybox echo "***********************************************************"
+
+$skybox sleep 2
+
+#if [ -e /system/app/Skynet.apk ]; then
+#$skybox rm -f /system/app/Skynet.apk
+#fi;/
+
+#if [ -e /system/app/Skynet.apk ]; then
+#$skybox rm -f /system/app/Skynet/Skynet.apk
+#fi;
+#if [ -e / system/app/RW.apk ]; then
+#$skybox rm -f /system/app/RW/RW.apk
+#fi;
+
+$skybox rm -f /system/bin/menu
+$skybox rm -f /system/bin/scan
+$skybox rm -f /system/bin/mode
+$skybox rm -f /system/bin/boost
+$skybox rm -f /system/bin/unboot
+$skybox rm -f /system/bin/oom
+$skybox rm -f /system/bin/adn
+$skybox rm -f /system/bin/out
+$skybox rm -f /system/bin/profil
+$skybox rm -rf /system/etc/cron.d
+$skybox rm -f /system/addon.d/71-Skynet.sh
+$skybox rm -f /system/etc/Sky/*.log
+$skybox rm -f /system/etc/Sky/ad_calib.cfg
+$skybox rm -f /system/etc/Sky/fstrim
+$skybox rm -f /system/etc/Sky/hosts
+$skybox rm -f /system/etc/Sky/INIT.sh
+$skybox rm -f /system/etc/Sky/KGP
+$skybox rm -f /system/etc/Sky/KSM
+$skybox rm -f /system/etc/Sky/mxt224_ts_input.idc
+$skybox rm -f /system/etc/Sky/NET5
+$skybox rm -f /system/etc/Sky/SKYNET1
+$skybox rm -f /system/etc/Sky/SKYNET2
+$skybox rm -f /system/etc/Sky/SKYNET3
+$skybox rm -f /system/etc/Sky/sqlite3
+$skybox rm -f /system/etc/Sky/TR
+$skybox rm -f /system/etc/Sky/WS
+$skybox rm -f /system/etc/Sky/XR
+$skybox rm -f /system/etc/Sky/ZR
+$skybox rm -f /system/etc/Sky/ZSA
+$skybox rm -f /system/etc/Sky/ZSC
+
+if [ -e /system/usr/idc/mxt224_ts_input.idc ]; then
+$skybox rm -f /system/usr/idc/mxt224_ts_input.idc
+fi;
+if [ -e /system/etc/init.d.sky ]; then
+$skybox rm -rf /system/etc/init.d.sky
+fi;
+if [ -e /data/*.log ]; then
+$skybox rm /data/*.log
+fi;
+if [ -e /system/etc/passwd ]; then
+$skybox rm -f /system/etc/passwd
+fi;
+if [ -e /system/etc/group ]; then
+$skybox rm -f /system/etc/group
+fi;
+if [ -e /system/etc/shadow  ]; then
+$skybox rm -f /system/etc/shadow 
+fi;
+
+$skybox sleep 2
+
+if [ -e /system/etc/init.d.bak ]; then
+$skybox rm -rf /system/etc/init.d
+$skybox mv -f /system/etc/init.d.bak /system/etc/init.d
+$skybox chmod -f 0755 /system/etc/init.d
+$skybox chmod -f 0755 /system/etc/init.d/*
+$skybox chown -f 0:0 /system/etc/init.d
+$skybox chown -f 0:0 /system/etc/init.d/*
+fi;
+
+if [ -e /system/etc/hosts.bak ]; then
+$skybox rm -f /system/etc/hosts
+$skybox mv -f /system/etc/hosts.bak /system/etc/hosts
+$skybox chmod -f 0755 /system/etc/hosts
+$skybox chown -f 0:0 /system/etc/hosts
+fi;
+
+$skybox sleep 2
+
+if [ -e /system/lib/egl/egl.cfg.bak ]; then
+ $skybox rm -f /system/lib/egl/egl.cfg
+ $skybox mv /system/lib/egl/egl.cfg.bak /system/lib/egl/egl.cfg
+ $skybox chmod 0644 /system/lib/egl/egl.cfg
+  if [ -e /system/lib/egl/libGLES_android.so.bak ]; then
+  $skybox mv /system/lib/egl/libGLES_android.so.bak /system/lib/egl/libGLES_android.so
+  $skybox chmod 0644 /system/lib/egl/libGLES_android.so
+  fi;
+fi;
+
+$skybox sleep 2
+
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "          PROJECT_SKYNET_GENISYS Has Been Removed"
+$skybox echo ""
+$skybox echo "               Stock Functions Restored"
+$skybox sleep 1
+$skybox echo ""
+$skybox echo "             Please Reboot Your System Now!!!"
+$skybox sleep 2
+
+if [ -e /system/bin/no_mod ]; then
+$skybox rm /system/bin/no_mod
+fi;

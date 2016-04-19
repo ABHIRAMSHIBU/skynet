@@ -1,0 +1,72 @@
+#!/system/etc/Sky/skybox sh
+# PROJECT SKYNET 
+# Copyright CYBERDYNE (C) 2016 K1ks
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+skybox=/system/etc/Sky/skybox
+FGPS=/system/etc/Sky/FGPS.log
+
+$skybox mount -o remount,rw / 2>/dev/null
+$skybox mount -o remount,rw / / 2>/dev/null
+$skybox mount -o remount,rw rootfs 2>/dev/null
+$skybox mount -o remount,rw /system 2>/dev/null
+$skybox mount -o remount,rw /system /system 2>/dev/null
+
+mount -o remount,rw / 2>/dev/null
+mount -o remount,rw / / 2>/dev/null
+mount -o remount,rw rootfs 2>/dev/null
+mount -o remount,rw /system 2>/dev/null
+mount -o remount,rw /system /system 2>/dev/null
+
+SLEEP_TIME=0.5
+
+## Init.d Permissive SELinux=========================================#
+
+if [ -e /sys/fs/selinux/enforce ]; then
+$skybox echo "0" > /sys/fs/selinux/enforce
+fi;
+
+## FIX GOOGLE PLAY SERVICE ( Kitkat or More )=========================================#
+
+SD=`getprop ro.build.version.sdk`;
+
+if [ $SD -le 19 ]; then
+$skybox sleep $SLEEP_TIME	
+else	
+pm enable com.google.android.gms/.update.SystemUpdateActivity
+pm enable com.google.android.gms/.update.SystemUpdateService
+pm enable com.google.android.gms/.update.SystemUpdateService$ActiveReceiver
+pm enable com.google.android.gms/.update.SystemUpdateService$Receiver
+pm enable com.google.android.gms/.update.SystemUpdateService$SecretCodeReceiver
+pm enable com.google.android.gsf/.update.SystemUpdateActivity
+pm enable com.google.android.gsf/.update.SystemUpdatePanoActivity
+pm enable com.google.android.gsf/.update.SystemUpdateService
+pm enable com.google.android.gsf/.update.SystemUpdateService$Receiver
+pm enable com.google.android.gsf/.update.SystemUpdateService$SecretCodeReceiver
+$skybox echo "FIX GOOGLE PLAY SERVICE ENABLED" | $skybox tee -a $FGPS
+fi;
+
+# FSTRIM AUTOMATE 
+
+#if [ -e /system/etc/Sky/TIME.log ]; then
+#$skybox rm /system/etc/Sky/TIME.log;
+#fi;	
+
+#if test -f /bin/sh
+#then
+#$skybox sleep $SLEEP_TIME	
+#else
+#$skybox ln -s /system/bin/ /bin
+#fi;
+
+#$skybox date > /system/etc/Sky/TIME.log;
+#$skybox crond -b -c /system/etc/cron.d -l 0 -L /system/etc/Sky/TIME.log;

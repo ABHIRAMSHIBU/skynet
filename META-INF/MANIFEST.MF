@@ -1,0 +1,132 @@
+Manifest-Version: 1.0
+Created-By: 1.0 (Android SignApk)
+
+Name: META-INF/com/google/android/updater-script
+SHA1-Digest: Jo096EthS+3+nBqxffEDmY/Ymxo=
+
+Name: mips/su
+SHA1-Digest: 3bjWDY61ovZLdhecrft7idWDZR4=
+
+Name: x64/supolicy
+SHA1-Digest: xl1gmcN5ew7KqaEur1Jdrmzu+Es=
+
+Name: common/launch_daemonsu.sh
+SHA1-Digest: 7SWMrPpiangs6exQEXiJzHazzz0=
+
+Name: armv7/libsupol.so
+SHA1-Digest: /xPn6fFZzDksD/IMBRe7iBvNNc8=
+
+Name: common/install-recovery.sh
+SHA1-Digest: RQJ5Fy/ZVZiz35w8g2YffpQg4yM=
+
+Name: arm/sukernel
+SHA1-Digest: N/UWEGNaaP+255HYPR9g5SFEyrI=
+
+Name: arm/su
+SHA1-Digest: ASznUzq1fK7603QM1lZIVeIoWlU=
+
+Name: mips/chattr.pie
+SHA1-Digest: ogeYjI3xhCLMro0LV/aapqg8XXY=
+
+Name: mips64/supolicy
+SHA1-Digest: l3KZbCLmpdIyG0wKZ5tuA1DRLgY=
+
+Name: x64/su
+SHA1-Digest: jHBstiChn+21NPna2gprnhaOoBM=
+
+Name: arm64/sukernel
+SHA1-Digest: lex80Taqf1fcKzEO/oInxjeeAvw=
+
+Name: x86/sukernel
+SHA1-Digest: dkENCmElXZqkpgx2EdR2naKy1iE=
+
+Name: common/file_contexts_image
+SHA1-Digest: nJmgRQuTQgagqQM2AWGSUAl6zRo=
+
+Name: x86/chattr
+SHA1-Digest: +eQOboQk8DOLbKA7QigfBCqi4XY=
+
+Name: x86/chattr.pie
+SHA1-Digest: HUwAneUqyxA+cof4C5ICXi+BnnM=
+
+Name: armv7/sukernel
+SHA1-Digest: RteQWPytJovH1pWfIFlLZAAUOB0=
+
+Name: armv7/supolicy
+SHA1-Digest: RaySgGkR/4khPoZLJNuX38WfJ9w=
+
+Name: mips64/su
+SHA1-Digest: KJ5crWCRfgb7Tu7/+GfgcjM4jRs=
+
+Name: x86/libsupol.so
+SHA1-Digest: BJtorTKdwgn20Hl0hwICiPHmGHI=
+
+Name: arm64/libsupol.so
+SHA1-Digest: eJUOaQgKdH1hZyT1yJCYxMvPNDo=
+
+Name: mips/supolicy
+SHA1-Digest: NoOTu6ZNd8+7TOe/lfW1Z1sq4Uw=
+
+Name: common/000000deepsleep
+SHA1-Digest: HJGw1GvYQAi49PsaizGmKt8FbBI=
+
+Name: x86/su.pie
+SHA1-Digest: XsE1YnDCJFz2+AGzLrUYCY0zMR4=
+
+Name: mips64/libsupol.so
+SHA1-Digest: NCDYgRsIb8sq5ySTGDMwsYySNiM=
+
+Name: x64/libsupol.so
+SHA1-Digest: yUdeI21GudMUDDloR8s52a63MgU=
+
+Name: arm64/su
+SHA1-Digest: O4qd4uqlAYfzbORQ9I2RY/3nt1M=
+
+Name: arm/chattr
+SHA1-Digest: Fkc4cFVlxcol86TUh1wc7i45TeM=
+
+Name: mips/libsupol.so
+SHA1-Digest: X5nTm0zCeoRZgBfs0EQ0zUfi4bE=
+
+Name: x64/sukernel
+SHA1-Digest: kj7Hboc7lvWdP8FdEzHu4pHWFN4=
+
+Name: META-INF/com/google/android/update-binary
+SHA1-Digest: TMHau973MA7V/ordGydR0GAlW4c=
+
+Name: arm64/supolicy
+SHA1-Digest: uViUBvD1dhh2aiqM5ohI5UZJ2KQ=
+
+Name: armv7/su
+SHA1-Digest: l6GlajDlAD7w/IjppZKTKqENCi8=
+
+Name: x86/supolicy
+SHA1-Digest: 3ZPn0wHwh/R8oAw8aNYK3YD8bb8=
+
+Name: x86/su
+SHA1-Digest: VNUAvFXNi5tLJV4mwA8ECxiGwx8=
+
+Name: mips64/sukernel
+SHA1-Digest: cz2KUIrLDxk0hQKkEKmNCcdc3SY=
+
+Name: arm/chattr.pie
+SHA1-Digest: qoEQYzse93l3q+ZogsUhBIhPVbw=
+
+Name: arm/supolicy
+SHA1-Digest: yrgMUeWSYYYbw263Bo7DX7Lquuc=
+
+Name: common/99SuperSUDaemon
+SHA1-Digest: 3AYSllvBRJ0eFpxgJghu8XgSuPQ=
+
+Name: common/Superuser.apk
+SHA1-Digest: tW+TnAvObr5WhOOmYNRA/cWmLWQ=
+
+Name: mips/sukernel
+SHA1-Digest: O5N6z3zaP+7i+tY1U8z7cE/e8vc=
+
+Name: arm/libsupol.so
+SHA1-Digest: z4K7Pjobu0rs5RspNZ/Me7rr/nQ=
+
+Name: armv7/chattr.pie
+SHA1-Digest: qoEQYzse93l3q+ZogsUhBIhPVbw=
+

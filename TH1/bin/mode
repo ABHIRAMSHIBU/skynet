@@ -1,0 +1,548 @@
+. colors 
+clear
+#!/system/etc/Sky/skybox sh
+# PROJECT SKYNET 
+# Copyright CYBERDYNE (C) 2016 K1ks
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+export PATH=/system/etc/Sky:$PATH:/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin:
+
+skybox=/system/etc/Sky/skybox
+
+$skybox mount -o remount,rw / 2>/dev/null
+$skybox mount -o remount,rw / / 2>/dev/null
+$skybox mount -o remount,rw rootfs 2>/dev/null
+$skybox mount -o remount,rw /system 2>/dev/null
+$skybox mount -o remount,rw /system /system 2>/dev/null
+
+mount -o remount,rw / 2>/dev/null
+mount -o remount,rw / / 2>/dev/null
+mount -o remount,rw rootfs 2>/dev/null
+mount -o remount,rw /system 2>/dev/null
+mount -o remount,rw /system /system 2>/dev/null
+
+case $( cat /sys/fs/selinux/enforce ) in
+0) selinux="$color_fg_green""Permissive""$color_reset"
+;;
+1) selinux="$color_fg_red""Enforsing""$color_reset"
+;;
+esac
+if [ -e /system/etc/init.d/XR ]; then
+xt="\e[1;32mON\e[0m"
+else
+xt="\e[1;31mOFF\e[0m"
+fi;
+if [ -e /system/etc/init.d/WS ]; then
+wifi="\e[1;32mON\e[0m"
+else
+wifi="\e[1;31mOFF\e[0m"
+fi;
+if [ -e /system/etc/init.d/ZR ]; then
+zram="\e[1;32mON\e[0m"
+else
+zram="\e[1;31mOFF\e[0m"
+fi;
+if [ -e /system/etc/init.d/KM ]; then
+media="\e[1;32mON\e[0m"
+else
+media="\e[1;31mOFF\e[0m"
+fi;
+if [ -e /system/etc/init.d/ZSC ]; then
+scaling="\e[1;32mON\e[0m"
+else
+scaling="\e[1;31mOFF\e[0m"
+fi;
+if [ -e /system/etc/init.d/TR ]; then
+fs="\e[1;32mON\e[0m"
+else
+fs="\e[1;31mOFF\e[0m"
+fi;
+if [ -e /system/etc/init.d/KGP ]; then
+gp="\e[1;32mON\e[0m"
+else
+gp="\e[1;31mOFF\e[0m"
+fi;
+if [ -e /system/etc/init.d/KSM ]; then
+ksm="\e[1;32mON\e[0m"
+else
+ksm="\e[1;31mOFF\e[0m"
+fi;
+if [ -e /system/usr/idc/mxt224_ts_input.idc ]; then
+idc="\e[1;32mON\e[0m"
+else
+idc="\e[1;31mOFF\e[0m"
+fi;
+if [ -e /system/etc/init.d/NET5 ]; then
+max="\e[1;32mON\e[0m"
+else
+max="\e[1;31mOFF\e[0m"
+fi;
+if [ -e /system/etc/init.d/ZSA ]; then
+vis="\e[1;32mON\e[0m"
+else
+vis="\e[1;31mOFF\e[0m"
+fi;
+if [ -e /system/etc/init.d/PL ]; then
+lim="\e[1;32mON\e[0m"
+else
+lim="\e[1;31mOFF\e[0m"
+fi;
+if [ -e /system/etc/init.d/FS ]; then
+fs="\e[1;32mON\e[0m"
+else
+fs="\e[1;31mOFF\e[0m"
+fi;
+
+$skybox echo ""
+$skybox echo "TIPS : Each Extras Should Be Turned On One By One"
+$skybox echo "       Not Recommended For All Devices"
+$skybox echo "       Expected Random Behavior"
+
+$skybox sleep 4
+
+$skybox clear;
+
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e "  \e[1;37m ===========* PROJECT_SKYNET_GENISYS TX7 *============\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e " \e[1;31m     =============* EXTRAS CONTROL *===============\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e "                   1 - XTREME RENICE...| $xt" 
+$skybox echo ""
+$skybox echo -e "                   2 - MEDIAKILL...| $media" 
+$skybox echo ""
+$skybox echo -e "                   3 - SCALING+...| $scaling" 
+$skybox echo ""
+$skybox echo -e "                   4 - WIFISLEEP...| $wifi" 
+$skybox echo ""
+$skybox echo -e "                   5 - ZRAM...| $zram" 
+$skybox echo "" 
+$skybox echo -e "                   6 - KSM...| $ksm" 
+$skybox echo ""
+$skybox echo -e "                   7 - KILL GOOGLE APPS...| $gp" 
+$skybox echo ""
+$skybox echo -e "                   8 - TOUCHSCREEN...| $idc" 
+$skybox echo ""
+$skybox echo -e "                   9 - NETBOOST...| $max" 
+$skybox echo ""
+$skybox echo -e "                  10 - LMK VISON...| $vis" 
+$skybox echo ""
+$skybox echo -e "                  11 - ENFORCE PROCESS LIMIT...| $lim" 
+$skybox echo ""
+$skybox echo -e "                  12 - SCHEDULER KERNEL...| $fs" 
+$skybox echo ""
+$skybox echo -e "                  13 - SELINUX MODE...| $selinux"
+$skybox echo ""
+$skybox echo -e "                  14 - Back to Manager..."
+$skybox echo ""
+$skybox echo -n "               ...What Do You Want To Do..?"
+read character
+case $character in
+1) $skybox sleep 1
+if [ -e /system/etc/init.d/XR ]; then
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "            Sequential Stop Over Xtreme Renice"
+$skybox sleep 2
+$skybox rm -f /system/etc/init.d/XR
+$skybox rm -f /system/etc/Sky/XR.log
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Please reboot your device ASAP"
+$skybox sleep 1
+sh system/bin/mode
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           Sequential Startup Xtreme Renice"
+$skybox sleep 2
+$skybox cp -f /system/etc/Sky/XR /system/etc/init.d
+$skybox chmod -f 0755 /system/etc/init.d/XR
+$skybox chown -f 0:0 /system/etc/init.d/XR
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Fast Option To Apply Changes ASAP"
+$skybox sleep 1
+sh system/bin/mode
+fi;;
+
+2) $skybox sleep 1
+if [ -e /system/etc/init.d/KM ]; then
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "             Sequential Stop Over MediaKill"
+$skybox sleep 2
+$skybox rm -f /system/etc/init.d/KM
+$skybox rm -f /system/etc/Sky/KM.log
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Please reboot your device ASAP"
+$skybox sleep 1
+sh system/bin/mode
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "              Sequential Startup MediaKill"
+$skybox sleep 2
+$skybox cp -f /system/etc/Sky/KM /system/etc/init.d
+$skybox chmod -f 0755 /system/etc/init.d/KM
+$skybox chown -f 0:0 /system/etc/init.d/KM
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Fast Option To Apply Changes ASAP"
+$skybox sleep 1
+sh system/bin/mode
+fi;;
+
+3) $skybox sleep 1
+if [ -e /system/etc/init.d/ZSC ]; then
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "             Sequential Stop Over Scaling+"
+$skybox sleep 2
+$skybox rm -f /system/etc/init.d/ZSC
+$skybox rm -f /system/etc/Sky/ZSC.log
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Please reboot your device ASAP"
+$skybox sleep 1
+sh system/bin/mode
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "              Sequential Startup Scaling+"
+$skybox sleep 2
+$skybox cp -f /system/etc/Sky/ZSC /system/etc/init.d
+$skybox chmod -f 0755 /system/etc/init.d/ZSC
+$skybox chown -f 0:0 /system/etc/init.d/ZSC
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Fast Option To Apply Changes ASAP"
+$skybox sleep 1
+sh system/bin/mode
+fi;;
+
+4) $skybox sleep 1
+if [ -e /system/etc/init.d/WS ]; then
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "             Sequential Stop Over WifiSleep"
+$skybox sleep 2
+$skybox rm -f /system/etc/init.d/WS
+$skybox rm -f /system/etc/Sky/WS.log
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Please reboot your device ASAP"
+$skybox sleep 1
+sh system/bin/mode
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "              Sequential Startup WifiSleep"
+$skybox sleep 2
+$skybox cp -f /system/etc/Sky/WS /system/etc/init.d
+$skybox chmod -f 0755 /system/etc/init.d/WS
+$skybox chown -f 0:0 /system/etc/init.d/WS
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Fast Option To Apply Changes ASAP"
+$skybox sleep 1
+sh system/bin/mode
+fi;;
+
+5) $skybox sleep 1
+if [ -e /system/etc/init.d/ZR ]; then
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "              Sequential Stop Over Zram"
+$skybox sleep 2
+$skybox rm -f /system/etc/init.d/ZR
+$skybox rm -f /system/etc/Sky/ZR.log
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Please reboot your device ASAP"
+$skybox sleep 1
+sh system/bin/mode
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "                 Sequential Startup Zram"
+$skybox sleep 2
+$skybox cp -f /system/etc/Sky/ZR /system/etc/init.d
+$skybox chmod -f 0755 /system/etc/init.d/ZR
+$skybox chown -f 0:0 /system/etc/init.d/ZR
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Fast Option To Apply Changes ASAP"
+$skybox sleep 1
+sh system/bin/mode
+fi;;
+
+6) $skybox sleep 1
+if [ -e /system/etc/init.d/KSM ]; then
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "               Sequential Stop Over KSM"
+$skybox sleep 2
+$skybox rm -f /system/etc/init.d/KSM
+$skybox rm -f /system/etc/Sky/KSM.log
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Please reboot your device ASAP"
+$skybox sleep 1
+sh system/bin/mode
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "                Sequential Startup KSM"
+$skybox sleep 2
+$skybox cp -f /system/etc/Sky/KSM /system/etc/init.d
+$skybox chmod -f 0755 /system/etc/init.d/KSM
+$skybox chown -f 0:0 /system/etc/init.d/KSM
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Fast Option To Apply Changes ASAP"
+$skybox sleep 1
+sh system/bin/mode
+fi;;
+
+7) $skybox sleep 1
+if [ -e /system/etc/init.d/KGP ]; then
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "              Sequential Stop Over Kill GP"
+$skybox sleep 2
+$skybox rm -f /system/etc/init.d/KGP
+$skybox rm -f /system/etc/Sky/KGP.log
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Please reboot your device ASAP"
+$skybox sleep 1
+sh system/bin/mode
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "               Sequential Startup KIll GP"
+$skybox sleep 2
+$skybox cp -f /system/etc/Sky/KGP /system/etc/init.d
+$skybox chmod -f 0755 /system/etc/init.d/KGP
+$skybox chown -f 0:0 /system/etc/init.d/KGP
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Fast Option To Apply Changes ASAP"
+$skybox sleep 1
+sh system/bin/mode
+fi;;
+
+8) $skybox sleep 1
+if [ -e /system/usr/idc/mxt224_ts_input.idc ]; then
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "              Sequential Stop TouchScreen"
+$skybox sleep 2
+$skybox rm -f /system/usr/idc/mxt224_ts_input.idc
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Please reboot your device ASAP"
+$skybox sleep 1
+sh system/bin/mode
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "             Sequential Startup TouchScreen"
+$skybox sleep 2
+$skybox cp -f /system/etc/Sky/mxt224_ts_input.idc /system/usr/idc/
+$skybox chmod -f 0755 /system/usr/idc/mxt224_ts_input.idc
+$skybox chown -f 0:0 /system/usr/idc/mxt224_ts_input.idc
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Fast Option To Apply Changes ASAP"
+$skybox sleep 1
+sh system/bin/mode
+fi;;
+
+9) $skybox sleep 1
+if [ -e /system/etc/init.d/NET5 ]; then
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "              Sequential Stop Over NetBoost"
+$skybox sleep 2
+$skybox rm -f /system/etc/init.d/NET5
+$skybox rm -f /system/etc/Sky/NET.log
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Please reboot your device ASAP"
+$skybox sleep 1
+sh system/bin/mode
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "              Sequential Startup NetBoost"
+$skybox sleep 2
+$skybox cp -f /system/etc/Sky/NET5 /system/etc/init.d
+$skybox chmod -f 0755 /system/etc/init.d/NET5
+$skybox chown -f 0:0 /system/etc/init.d/NET5
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Fast Option To Apply Changes ASAP"
+$skybox sleep 1
+sh system/bin/mode
+fi;;
+
+
+10) $skybox sleep 1
+if [ -e /system/etc/init.d/ZSA ]; then
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "         Sequential Stop Over LMK Vision"
+$skybox sleep 2
+$skybox rm -f /system/etc/init.d/ZSA
+$skybox rm -f /system/etc/Sky/ZSA.log
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Please reboot your device ASAP"
+$skybox sleep 1
+sh system/bin/mode
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "          Sequential Startup LMK Vision"
+$skybox sleep 2
+$skybox cp -f /system/etc/Sky/ZSA /system/etc/init.d
+$skybox chmod -f 0755 /system/etc/init.d/ZSA
+$skybox chown -f 0:0 /system/etc/init.d/ZSA
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Fast Option To Apply Changes ASAP"
+$skybox sleep 1
+sh system/bin/mode
+fi;;
+
+11) $skybox sleep 1
+if [ -e /system/etc/init.d/PL ]; then
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "      Sequential Stop Over Enforce Process Limit"
+$skybox sleep 2
+$skybox rm -f /system/etc/init.d/PL
+$skybox rm -f /system/etc/Sky/PL.log
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Please reboot your device ASAP"
+$skybox sleep 1
+sh system/bin/mode
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "        Sequential Startup Enforce Process Limit"
+$skybox sleep 2
+$skybox cp -f /system/etc/Sky/PL /system/etc/init.d
+$skybox chmod -f 0755 /system/etc/init.d/PL
+$skybox chown -f 0:0 /system/etc/init.d/PL
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Fast Option To Apply Changes ASAP"
+$skybox sleep 1
+sh system/bin/mode
+fi;;
+
+12) $skybox sleep 1
+if [ -e /system/etc/init.d/FS ]; then
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           Sequential Stop Over Scheduler Kernel "
+$skybox sleep 2
+$skybox rm -f /system/etc/init.d/FS
+$skybox rm -f /system/etc/Sky/FS.log
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Please reboot your device ASAP"
+$skybox sleep 1
+sh system/bin/mode
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           Sequential Startup Scheduler Kernel "
+$skybox sleep 2
+$skybox cp -f /system/etc/Sky/FS /system/etc/init.d
+$skybox chmod -f 0755 /system/etc/init.d/FS
+$skybox chown -f 0:0 /system/etc/init.d/FS
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Fast Option To Apply Changes ASAP"
+$skybox sleep 1
+sh system/bin/mode
+fi;;
+
+13) .//system/bin/selinux
+;;
+
+14) $skybox sleep 1
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "                  Go Back to Manager"
+$skybox sleep 1
+sh system/bin/menu
+esac
+$skybox sleep 1

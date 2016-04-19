@@ -1,0 +1,96 @@
+#!/system/etc/Sky/skybox sh
+# PROJECT SKYNET 
+# Copyright CYBERDYNE (C) 2016 K1ks
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+skybox=/system/etc/Sky/skybox
+
+$skybox mount -o remount,rw / 2>/dev/null
+$skybox mount -o remount,rw / / 2>/dev/null
+$skybox mount -o remount,rw rootfs 2>/dev/null
+$skybox mount -o remount,rw /system 2>/dev/null
+$skybox mount -o remount,rw /system /system 2>/dev/null
+
+mount -o remount,rw / 2>/dev/null
+mount -o remount,rw / / 2>/dev/null
+mount -o remount,rw rootfs 2>/dev/null
+mount -o remount,rw /system 2>/dev/null
+mount -o remount,rw /system /system 2>/dev/null
+
+PMB=/system/etc/Sky/XR.log
+
+if [ -e $PMB ]; then
+$skybox rm $PMB;
+fi;
+
+$skybox touch $PMB;
+$skybox echo "# STARTING UP OF SKYNET CONTROL CENTER : $( date +"%m-%d-%Y %H:%M:%S" )" | $skybox tee -a $PMB;
+$skybox echo "" | $skybox tee -a $PMB;
+
+# XTREME RENICE SYSTEM =========================================#
+
+for dump in `dumpsys activity services | $skybox grep -i app=ProcessRecord | $skybox awk '{ print $2 }' | $skybox grep -v '/100[0-9]}' | $skybox cut -d: -f1`; do
+$skybox renice 7 $dump 
+$skybox ionice -c 2 -n 7 -p $dump 
+done;
+
+$skybox echo "=====* Renice Dumpsys..." | $skybox tee -a $PMB;
+
+$skybox sleep $SLEEP_TIME
+
+zyg=$($skybox pgrep zygote) 
+$skybox renice -1 $zyg 
+$skybox ionice -c 1 -n 0 -p $zyg 
+
+$skybox echo "=====* Renice Zygote..." | $skybox tee -a $PMB;
+
+
+ksw=$($skybox pgrep kswapd0) 
+$skybox renice 0 $ksw 
+$skybox ionice -c 2 -n 0 -p $ksw 
+
+$skybox echo "=====* Renice Kswpd0..." | $skybox tee -a $PMB;
+
+for lp in `$skybox pgrep loop`; do
+$skybox ionice -c 2 -n 0 -p $lp
+done;
+
+$skybox echo "=====* Renice Loop..." | $skybox tee -a $PMB;
+
+sf=$($skybox pgrep surfaceflinger)
+$skybox echo "$sf" > /dev/cpuctl/cgroup.procs 
+for Y in `ls /proc/$sf/task`; do
+$skybox echo "$Y" > /dev/cpuctl/tasks
+done;
+
+$skybox echo "=====* Renice SurfaceFlinger..." | $skybox tee -a $PMB;
+
+if [ -e /dev/cpuctl/bg_non_interactive/cpu.shares ]; then
+$skybox echo "96" > /dev/cpuctl/bg_non_interactive/cpu.shares
+$skybox echo "=====* CPU Allocation..." | $skybox tee -a $PMB;
+fi;
+
+bd=$($skybox pgrep binder)
+$skybox echo "$bd" > /dev/cpuctl/cgroup.procs 
+for X in `ls /proc/$bd/task`; do
+$skybox echo "$X" > /dev/cpuctl/tasks 
+done;
+
+$skybox echo "=====* Renice Binder..." | $skybox tee -a $PMB;
+
+if [ -e /dev/cpuctl/cpu.shares ]; then
+$skybox echo "1024" > /dev/cpuctl/cpu.shares
+$skybox echo "=====* Control Groups Processes..." | $skybox tee -a $PMB;
+fi;
+
+$skybox echo "" | $skybox tee -a $PMB;
+$skybox echo "# END OF THE SKYNET CONTROL CENTER : $( date +"%m-%d-%Y %H:%M:%S" ) " | $skybox tee -a $PMB;

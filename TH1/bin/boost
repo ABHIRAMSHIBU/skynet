@@ -1,0 +1,118 @@
+#!/system/etc/Sky/skybox sh
+# PROJECT SKYNET 
+# Copyright CYBERDYNE (C) 2016 K1ks
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+export PATH=/system/etc/Sky:$PATH:/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin:
+
+skybox=/system/etc/Sky/skybox
+
+$skybox mount -o remount,rw / 2>/dev/null
+$skybox mount -o remount,rw / / 2>/dev/null
+$skybox mount -o remount,rw rootfs 2>/dev/null
+$skybox mount -o remount,rw /system 2>/dev/null
+$skybox mount -o remount,rw /system /system 2>/dev/null
+
+mount -o remount,rw / 2>/dev/null
+mount -o remount,rw / / 2>/dev/null
+mount -o remount,rw rootfs 2>/dev/null
+mount -o remount,rw /system 2>/dev/null
+mount -o remount,rw /system /system 2>/dev/null
+
+$skybox clear;
+
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e "  \e[1;37m ===========* PROJECT_SKYNET_GENISYS TX7 *============\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e " \e[1;31m     =============* SYSTEM OPTIMIZER *===============\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox sleep 2
+$skybox echo ""
+$skybox echo "             Sequential StartUp Process Boost"
+$skybox echo ""
+$skybox free | $skybox awk '/Mem/{print "            Memory Before Booster : "$4/1024" MB";}'
+
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo -n "                Let's Go !...In Progress"
+$skybox sync;
+$skybox sleep 1
+$skybox echo -n ".";
+$skybox echo "3" > /proc/sys/vm/drop_caches;
+$skybox sleep 1
+$skybox echo -n ".";
+dc=/proc/sys/vm/drop_caches
+dc_v=`$skybox cat $dc`
+if [ "$dc_v" -gt 1 ]; then
+$skybox echo "1" > /proc/sys/vm/drop_caches;
+else
+$skybox echo ""
+$skybox echo "                Nop !...Error When Boosting..?"
+$skybox exit
+fi;
+
+$skybox sleep 1
+
+$skybox rm -f /cache/*.apk
+$skybox rm -f /cache/*.tmp
+$skybox rm -f /cache/*.log
+$skybox rm -f /cache/*.txt
+$skybox rm -f /data/*.log
+$skybox rm -f /data/*.txt
+$skybox rm -f /data/anr/*.log
+$skybox rm -f /data/anr/*.txt
+$skybox rm -f /data/backup/pending/*.tmp
+$skybox rm -f /data/cache/*.*
+$skybox rm -f /data/data/*.log
+$skybox rm -f /data/data/*.txt
+$skybox rm -f /data/dalvik-cache/*.apk
+$skybox rm -f /data/dalvik-cache/*.tmp
+$skybox rm -f /data/log/*.log
+$skybox rm -f /data/log/*.txt
+$skybox rm -f /data/local/*.apk
+$skybox rm -f /data/local/*.log
+$skybox rm -f /data/local/*.txt
+$skybox rm -f /data/local/tmp/*.log
+$skybox rm -f /data/local/tmp/*.txt
+$skybox rm -f /data/last_alog/*.log
+$skybox rm -f /data/last_alog/*.txt
+$skybox rm -f /data/last_kmsg/*.log
+$skybox rm -f /data/last_kmsg/*.txt
+$skybox rm -f /data/mlog/*
+$skybox rm -f /data/tombstones/*.log
+$skybox rm -f /data/tombstones/*.txt
+$skybox rm -f /data/system/*.log
+$skybox rm -f /data/system/*.txt
+$skybox rm -f /data/system/dropbox/*.log
+$skybox rm -f /data/system/dropbox/*.txt
+$skybox rm -f /data/system/usagestats/*.log
+$skybox rm -f /data/system/usagestats/*.txt
+
+$skybox sleep 1
+
+$skybox sleep 1
+$skybox echo -n ".";
+$skybox echo ""
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox sleep 1
+$skybox echo ""
+$skybox echo "                 Great !...System Optimized"
+$skybox echo ""
+$skybox free | $skybox awk '/Mem/{print "              Memory After Booster : "$4/1024" MB";}'
+$skybox echo ""
+df system
+df data 
+df cache

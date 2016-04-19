@@ -1,0 +1,90 @@
+#!/system/etc/Sky/skybox sh
+# PROJECT SKYNET
+# Copyright CYBERDYNE (C) 2016 K1ks
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+export PATH=/system/etc/Sky:$PATH:/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin:
+
+skybox=/system/etc/Sky/skybox
+
+$skybox mount -o remount,rw / 2>/dev/null
+$skybox mount -o remount,rw / / 2>/dev/null
+$skybox mount -o remount,rw rootfs 2>/dev/null
+$skybox mount -o remount,rw /system 2>/dev/null
+$skybox mount -o remount,rw /system /system 2>/dev/null
+
+mount -o remount,rw / 2>/dev/null
+mount -o remount,rw / / 2>/dev/null
+mount -o remount,rw rootfs 2>/dev/null
+mount -o remount,rw /system 2>/dev/null
+mount -o remount,rw /system /system 2>/dev/null
+
+$skybox clear
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e "  \e[1;37m ===========* PROJECT_SKYNET_GENISYS TX7 *============\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e " \e[1;31m    =============* OUT OF ORDER SKYNET *===============\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo ""
+$skybox sleep 2
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "               Please Wait , Ongoing Disabling"
+
+if [ -e /system/etc/init.d/SKYNET1 ]; then
+$skybox rm -rf /system/etc/init.d/SKYNET1;
+fi;
+if [ -e /system/etc/init.d/SKYNET2 ]; then
+$skybox rm -rf /system/etc/init.d/SKYNET2;
+fi;
+if [ -e /system/etc/init.d/SKYNET3 ]; then
+$skybox rm -rf /system/etc/init.d/SKYNET3;
+fi;
+if [ -e /system/etc/init.d/KGP ]; then
+$skybox rm -rf /system/etc/init.d/KGP;
+fi;
+if [ -e /system/etc/init.d/KM ]; then
+$skybox rm -rf /system/etc/init.d/KM;
+fi;
+if [ -e /system/etc/init.d/KSM ]; then
+$skybox rm -rf /system/etc/init.d/KSM;
+fi;
+if [ -e /system/etc/init.d/NET5 ]; then
+$skybox rm -rf /system/etc/init.d/NET5;
+fi;
+if [ -e /system/etc/init.d/WS ]; then
+$skybox rm -rf /system/etc/init.d/WS;
+fi;
+if [ -e /system/etc/init.d/ZR ]; then
+$skybox rm -rf /system/etc/init.d/ZR;
+fi;
+if [ -e /system/etc/init.d/ZSC ]; then
+$skybox rm -rf /system/etc/init.d/ZSC;
+fi;
+if [ -e /system/etc/init.d/XR ]; then
+$skybox rm -rf /system/etc/init.d/XR;
+fi;
+if [ -e /system/etc/init.d/ZSA ]; then
+$skybox rm -rf /system/etc/init.d/ZSA;
+fi;
+if [ -e /system/etc/init.d/PL ]; then
+$skybox rm -rf /system/etc/init.d/PL;
+fi;
+
+$skybox sleep 2
+
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "         Skynet Is Now Disabled, Reboot Required"

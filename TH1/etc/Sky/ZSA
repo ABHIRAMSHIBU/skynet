@@ -1,0 +1,109 @@
+#!/system/etc/Sky/skybox sh
+# PROJECT SKYNET
+# Copyright CYBERDYNE (C) 2016 K1ks
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+skybox=/system/etc/Sky/skybox
+
+$skybox mount -o remount,rw / 2>/dev/null
+$skybox mount -o remount,rw / / 2>/dev/null
+$skybox mount -o remount,rw rootfs 2>/dev/null
+$skybox mount -o remount,rw /system 2>/dev/null
+$skybox mount -o remount,rw /system /system 2>/dev/null
+
+mount -o remount,rw / 2>/dev/null
+mount -o remount,rw / / 2>/dev/null
+mount -o remount,rw rootfs 2>/dev/null
+mount -o remount,rw /system 2>/dev/null
+mount -o remount,rw /system /system 2>/dev/null
+
+PMB=/system/etc/Sky/ZSA.log
+
+if [ -e $PMB ]; then
+$skybox rm $PMB;
+fi;
+
+$skybox touch $PMB;
+$skybox echo "# STARTING UP OF SKYNET CONTROL CENTER : $( date +"%m-%d-%Y %H:%M:%S" )" | $skybox tee -a $PMB;
+$skybox echo "" | $skybox tee -a $PMB;
+
+# LMK VISION
+
+RAM=`$skybox free | $skybox grep Mem | awk '{print $2}'`;
+SR1=9213
+SR2=12288
+SR3=14336
+SR4=18432
+SR5=24576
+
+$skybox chmod 0644 /sys/module/lowmemorykiller/parameters/minfree;
+if [ "$RAM" -lt 512000 ];then
+$skybox echo "3072,6144,9216,14336,20480,25600" > /sys/module/lowmemorykiller/parameters/minfree;	
+
+MFK=$(($SR1*2/10))
+MFK1=$(($SR1*2/7))
+$skybox sysctl -e -w vm.min_free_kbytes=$MFK;
+
+  if [ -e /proc/sys/vm/extra_free_kbytes ]; then
+  $skybox sysctl -e -w vm.extra_free_kbytes=$MFK1;
+  fi;
+
+elif [ "$RAM" -lt 1024000 ];then
+$skybox echo "6144,10240,12288,16384,20480,25600" > /sys/module/lowmemorykiller/parameters/minfree;
+
+MFK=$(($SR2*2/10))
+MFK1=$(($SR2*2/7))
+$skybox sysctl -e -w vm.min_free_kbytes=$MFK;
+
+  if [ -e /proc/sys/vm/extra_free_kbytes ]; then
+  $skybox sysctl -e -w vm.extra_free_kbytes=$MFK1;
+  fi;
+
+elif [ "$RAM" -lt 1536000 ];then
+$skybox echo "8192,12288,14336,16384,20480,25600" > /sys/module/lowmemorykiller/parameters/minfree;
+
+MFK=$(($SR3*2/10))
+MFK1=$(($SR3*2/7))
+$skybox sysctl -e -w vm.min_free_kbytes=$MFK;
+
+  if [ -e /proc/sys/vm/extra_free_kbytes ]; then
+  $skybox sysctl -e -w vm.extra_free_kbytes=$MFK1;
+  fi;
+
+elif [ "$RAM" -lt 2048000 ];then
+$skybox echo "12288,15360,18432,21504,24576,30720" > /sys/module/lowmemorykiller/parameters/minfree;
+
+MFK=$(($SR4*2/10))
+MFK1=$(($SR4*2/7))
+$skybox sysctl -e -w vm.min_free_kbytes=$MFK;
+
+  if [ -e /proc/sys/vm/extra_free_kbytes ]; then
+  $skybox sysctl -e -w vm.extra_free_kbytes=$MFK1;
+  fi;
+
+else
+$skybox echo "16384,20480,24576,28672,32768,36884" > /sys/module/lowmemorykiller/parameters/minfree;  
+
+MFK=$(($SR5*2/10))
+MFK1=$(($SR5*2/7))
+$skybox sysctl -e -w vm.min_free_kbytes=$MFK;
+
+  if [ -e /proc/sys/vm/extra_free_kbytes ]; then
+  $skybox sysctl -e -w vm.extra_free_kbytes=$MFK1;
+  fi;
+fi;
+$skybox chmod 0444 /sys/module/lowmemorykiller/parameters/minfree;
+
+$skybox echo "=====* LMK Vison = Activated..." | $skybox tee -a $PMB;
+
+$skybox echo "" | $skybox tee -a $PMB;
+$skybox echo "# END OF THE SKYNET CONTROL CENTER : $( date +"%m-%d-%Y %H:%M:%S" ) " | $skybox tee -a $PMB;

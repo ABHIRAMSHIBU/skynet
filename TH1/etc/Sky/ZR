@@ -1,0 +1,62 @@
+#!/system/etc/Sky/skybox sh
+# PROJECT SKYNET
+# Copyright CYBERDYNE (C) 2016 K1ks
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+skybox=/system/etc/Sky/skybox
+
+$skybox mount -o remount,rw / 2>/dev/null
+$skybox mount -o remount,rw / / 2>/dev/null
+$skybox mount -o remount,rw rootfs 2>/dev/null
+$skybox mount -o remount,rw /system 2>/dev/null
+$skybox mount -o remount,rw /system /system 2>/dev/null
+
+mount -o remount,rw / 2>/dev/null
+mount -o remount,rw / / 2>/dev/null
+mount -o remount,rw rootfs 2>/dev/null
+mount -o remount,rw /system 2>/dev/null
+mount -o remount,rw /system /system 2>/dev/null
+
+PMB=/system/etc/Sky/ZR.log
+
+if [ -e $PMB ]; then
+$skybox rm $PMB;
+fi;
+
+$skybox touch $PMB;
+$skybox echo "# STARTING UP OF SKYNET CONTROL CENTER : $( date +"%m-%d-%Y %H:%M:%S" )" | $skybox tee -a $PMB;
+$skybox echo "" | $skybox tee -a $PMB;
+
+# Zram =========================================#
+
+RAM=$((`$skybox awk '/MemTotal/{print $2}' /proc/meminfo`/1024))
+ZR=$(($RAM/2))
+ALG=lz4
+
+if [ -e /sys/block/zram0/comp_algorithm ]; then
+$skybox echo "$ALG" > /sys/block/zram0/comp_algorithm
+$skybox echo "=====* Compression Algorithm LZ4..." | $skybox tee -a $PMB;
+fi;
+
+if [ -e /sys/block/zram0 ]; then
+$skybox chmod 0644 /proc/sys/vm/swappiness
+$skybox echo $(($ZR*1024*1024)) >> /sys/block/zram0/disksize
+$skybox sysctl -e -w vm.swappiness=30
+$skybox mkswap /dev/block/zram0
+$skybox swapon /dev/block/zram0
+$skybox echo "=====* ZRAM = Activated..." | $skybox tee -a $PMB; 
+else
+$skybox echo "=====* ZRAM = Not Activated..." | $skybox tee -a $PMB;
+fi;
+
+$skybox echo "" | $skybox tee -a $PMB;
+$skybox echo "# END OF THE SKYNET CONTROL CENTER : $( date +"%m-%d-%Y %H:%M:%S" ) " | $skybox tee -a $PMB;

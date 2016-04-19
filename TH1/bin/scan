@@ -1,0 +1,118 @@
+#!/system/etc/Sky/skybox sh
+# PROJECT SKYNET
+# Copyright CYBERDYNE (C) 2016 K1ks
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+skybox=/system/etc/Sky/skybox
+
+$skybox clear
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e "  \e[1;37m ===========* PROJECT_SKYNET_GENISYS TX7 *============\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e " \e[1;31m    =============* INSTALLATION CONTROL *===============\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo ""
+$skybox echo "        Sequential StartUp Of The Checking Process"
+$skybox sleep 1
+$skybox echo ""
+$skybox sleep 1
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "                   Checking for PROGRAMS"
+if [ -e /system/etc/Sky/SKYNET2 ]; then
+$skybox echo "                           OK"
+$skybox sleep 1
+else 
+$skybox echo "                     NOT OK = ERROR"
+$skybox sleep 1
+fi;
+$skybox echo "                   Checking for FSTRIM"
+$skybox sleep 1
+if [ -e /system/etc/Sky/fstrim ]; then
+$skybox echo "                           OK"
+$skybox sleep 1
+else
+$skybox echo "                     NOT OK = ERROR"
+$skybox sleep 1
+fi;
+$skybox echo "                  Checking for SQLITE3"
+$skybox sleep 1
+if [ -e /system/etc/Sky/sqlite3 ]; then
+$skybox echo "                           OK"
+$skybox sleep 1
+else
+$skybox echo "                     NOT OK = ERROR"
+$skybox sleep 1
+fi;
+$skybox echo "                    Checking for IDC"
+$skybox sleep 1
+if [ -e /system/etc/Sky/mxt224_ts_input.idc ]; then
+$skybox echo "                           OK"
+$skybox sleep 1
+else
+$skybox echo"                     NOT OK = ERROR"
+$skybox sleep 1
+fi;
+$skybox echo "                  Checking for SKYBOX"
+$skybox sleep 1
+if [ -e /system/etc/Sky/skybox ]; then
+$skybox echo "                           OK"
+$skybox sleep 1
+else
+$skybox echo "                     NOT OK = ERROR"
+$skybox sleep 1
+fi;
+$skybox echo "                    Checking for MODE"
+$skybox sleep 1
+if [ -e /system/bin/profil ]; then
+$skybox echo "                           OK"
+$skybox sleep 1
+else
+$skybox echo "                     NOT OK = ERROR"
+$skybox sleep 1
+fi;
+$skybox echo "                   Checking for EXTRAS"
+$skybox sleep 1
+if [ -e /system/bin/mode ]; then
+$skybox echo "                           OK"
+$skybox sleep 1
+else
+$skybox echo "                     NOT OK = ERROR"
+$skybox sleep 1
+fi;
+$skybox echo "               Checking for BACKGROUND APP"
+$skybox sleep 1
+if [ -e /system/bin/oom ]; then
+$skybox echo "                           OK"
+$skybox sleep 1
+else
+$skybox echo "                     NOT OK = ERROR"
+$skybox sleep 1
+fi;
+$skybox echo "                Checking for UNINSTALLER"
+$skybox sleep 1
+if [ -e /system/bin/no_mod ]; then
+$skybox echo "                           OK"
+$skybox sleep 1
+else
+$skybox echo "                     NOT OK = ERROR"
+$skybox sleep 1
+fi;
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "     ...CHECKING PROJECT_SKYNET_GENISYS : FINISHED...   "
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox sleep 2

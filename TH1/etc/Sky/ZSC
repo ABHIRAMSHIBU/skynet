@@ -1,0 +1,329 @@
+#!/system/etc/Sky/skybox sh
+# PROJECT SKYNET 
+# Copyright CYBERDYNE (C) 2016 K1ks
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+skybox=/system/etc/Sky/skybox
+
+$skybox mount -o remount,rw / 2>/dev/null
+$skybox mount -o remount,rw / / 2>/dev/null
+$skybox mount -o remount,rw rootfs 2>/dev/null
+$skybox mount -o remount,rw /system 2>/dev/null
+$skybox mount -o remount,rw /system /system 2>/dev/null
+
+mount -o remount,rw / 2>/dev/null
+mount -o remount,rw / / 2>/dev/null
+mount -o remount,rw rootfs 2>/dev/null
+mount -o remount,rw /system 2>/dev/null
+mount -o remount,rw /system /system 2>/dev/null
+
+PMB=/system/etc/Sky/SC.log
+
+if [ -e $PMB ]; then
+$skybox rm $PMB;
+fi;
+
+$skybox touch $PMB;
+$skybox echo "# STARTING UP OF SKYNET CONTROL CENTER : $( date +"%m-%d-%Y %H:%M:%S" )" | $skybox tee -a $PMB;
+$skybox echo "" | $skybox tee -a $PMB;
+
+SLEEP_TIME=1
+
+if [ ! -e /sys/power/wait_for_fb_wake ]; then 
+$skybox echo "=====* SORRY : Not Scaling For You at $( date +"%m-%d-%Y %H:%M:%S" )" | $skybox tee -a $PMB;
+exit
+
+else
+
+(while [ 1 ];
+do
+
+AWAKE=`$skybox cat /sys/power/wait_for_fb_wake`;
+
+if [ $AWAKE = "awake" ]; then
+$skybox echo "=====* STATUS : Awake at $( date +"%m-%d-%Y %H:%M:%S" )" | $skybox tee -a $PMB;
+$skybox sleep $SLEEP_TIME
+	
+CAP=`$skybox cat /sys/class/power_supply/battery/capacity`  
+
+if [ $CAP -gt 0 ] && [ $CAP -le 30 ]; then
+
+$skybox sysctl -e -w vm.dirty_background_ratio=5
+$skybox sysctl -e -w vm.dirty_expire_centisecs=6000
+$skybox sysctl -e -w vm.dirty_ratio=10
+$skybox sysctl -e -w vm.dirty_writeback_centisecs=500
+$skybox sysctl -e -w vm.vfs_cache_pressure=10
+
+ if [ ! -e /system/etc/init.d/SKYNET1 ] && [ ! -e /system/etc/init.d/OC ]; then 
+  if [ "`$skybox cat /sys/devices/system/cpu/kernel_max`" -eq 1 ]; then 
+  $skybox chmod 0644 $CPU/cpu1/online;
+  $skybox echo 0 > $CPU/cpu1/online;
+  $skybox chmod 0444 $CPU/cpu1/online;
+  elif [ "`$skybox cat /sys/devices/system/cpu/kernel_max`" -eq 3 ]; then
+  $skybox chmod 0644 $CPU/cpu2/online;
+  $skybox chmod 0644 $CPU/cpu3/online;
+  $skybox echo 0 > $CPU/cpu2/online;
+  $skybox echo 0 > $CPU/cpu3/online;
+  $skybox chmod 0444 $CPU/cpu2/online;
+  $skybox chmod 0444 $CPU/cpu3/online;
+  elif [ "`$skybox cat /sys/devices/system/cpu/kernel_max`" -eq 7 ]; then
+  $skybox chmod 0644 $CPU/cpu4/online;
+  $skybox chmod 0644 $CPU/cpu5/online;
+  $skybox chmod 0644 $CPU/cpu6/online;
+  $skybox chmod 0644 $CPU/cpu7/online;
+  $skybox echo 0 > $CPU/cpu4/online;
+  $skybox echo 0 > $CPU/cpu5/online;
+  $skybox echo 0 > $CPU/cpu6/online;
+  $skybox echo 0 > $CPU/cpu7/online;
+  $skybox chmod 0444 $CPU/cpu4/online;
+  $skybox chmod 0444 $CPU/cpu5/online;
+  $skybox chmod 0444 $CPU/cpu6/online;
+  $skybox chmod 0444 $CPU/cpu7/online;
+  elif [ "`$skybox cat /sys/devices/system/cpu/kernel_max`" -eq 11 ]; then
+  $skybox chmod 0644 $CPU/cpu6/online;
+  $skybox chmod 0644 $CPU/cpu7/online;
+  $skybox chmod 0644 $CPU/cpu8/online;
+  $skybox chmod 0644 $CPU/cpu9/online;
+  $skybox chmod 0644 $CPU/cpu10/online;
+  $skybox chmod 0644 $CPU/cpu11/online;
+  $skybox echo 0 > $CPU/cpu6/online;
+  $skybox echo 0 > $CPU/cpu7/online;
+  $skybox echo 0 > $CPU/cpu8/online;
+  $skybox echo 0 > $CPU/cpu9/online;
+  $skybox echo 0 > $CPU/cpu10/online;
+  $skybox echo 0 > $CPU/cpu11/online;
+  $skybox chmod 0444 $CPU/cpu6/online;
+  $skybox chmod 0444 $CPU/cpu7/online;
+  $skybox chmod 0444 $CPU/cpu8/online;
+  $skybox chmod 0444 $CPU/cpu9/online;
+  $skybox chmod 0444 $CPU/cpu10/online;
+  $skybox chmod 0444 $CPU/cpu11/online;
+  elif [ "`$skybox cat /sys/devices/system/cpu/kernel_max`" -eq 15 ]; then
+  $skybox chmod 0644 $CPU/cpu8/online;
+  $skybox chmod 0644 $CPU/cpu9/online;
+  $skybox chmod 0644 $CPU/cpu10/online;
+  $skybox chmod 0644 $CPU/cpu11/online;
+  $skybox chmod 0644 $CPU/cpu12/online;
+  $skybox chmod 0644 $CPU/cpu13/online;
+  $skybox chmod 0644 $CPU/cpu14/online;
+  $skybox chmod 0644 $CPU/cpu15/online;
+  $skybox echo 0 > $CPU/cpu8/online;
+  $skybox echo 0 > $CPU/cpu9/online;
+  $skybox echo 0 > $CPU/cpu10/online;
+  $skybox echo 0 > $CPU/cpu11/online;
+  $skybox echo 0 > $CPU/cpu12/online;
+  $skybox echo 0 > $CPU/cpu13/online;
+  $skybox echo 0 > $CPU/cpu14/online;
+  $skybox echo 0 > $CPU/cpu15/online;
+  $skybox chmod 0444 $CPU/cpu8/online;
+  $skybox chmod 0444 $CPU/cpu9/online;
+  $skybox chmod 0444 $CPU/cpu10/online;
+  $skybox chmod 0444 $CPU/cpu11/online;
+  $skybox chmod 0444 $CPU/cpu12/online;
+  $skybox chmod 0444 $CPU/cpu13/online;
+  $skybox chmod 0444 $CPU/cpu14/online;
+  $skybox chmod 0444 $CPU/cpu15/online;
+  else
+  $skybox sleep 0.5
+  fi;
+ fi;
+
+elif [ $CAP -gt 30 ] && [ $CAP -le 100 ]; then
+
+  if [ ! -e /system/etc/init.d/SKYNET1 ] && [ ! -e /system/etc/init.d/OC ]; then 
+  if [ "`$skybox cat /sys/devices/system/cpu/kernel_max`" -eq 1 ]; then 
+  $skybox chmod 0644 $CPU/cpu1/online;
+  $skybox echo 1 > $CPU/cpu1/online;
+  $skybox chmod 0444 $CPU/cpu1/online;
+  elif [ "`$skybox cat /sys/devices/system/cpu/kernel_max`" -eq 3 ]; then
+  $skybox chmod 0644 $CPU/cpu2/online;
+  $skybox chmod 0644 $CPU/cpu3/online;
+  $skybox echo 1 > $CPU/cpu2/online;
+  $skybox echo 1 > $CPU/cpu3/online;
+  $skybox chmod 0444 $CPU/cpu2/online;
+  $skybox chmod 0444 $CPU/cpu3/online;
+  elif [ "`$skybox cat /sys/devices/system/cpu/kernel_max`" -eq 7 ]; then
+  $skybox chmod 0644 $CPU/cpu4/online;
+  $skybox chmod 0644 $CPU/cpu5/online;
+  $skybox chmod 0644 $CPU/cpu6/online;
+  $skybox chmod 0644 $CPU/cpu7/online;
+  $skybox echo 1 > $CPU/cpu4/online;
+  $skybox echo 1 > $CPU/cpu5/online;
+  $skybox echo 1 > $CPU/cpu6/online;
+  $skybox echo 1 > $CPU/cpu7/online;
+  $skybox chmod 0444 $CPU/cpu4/online;
+  $skybox chmod 0444 $CPU/cpu5/online;
+  $skybox chmod 0444 $CPU/cpu6/online;
+  $skybox chmod 0444 $CPU/cpu7/online;
+  elif [ "`$skybox cat /sys/devices/system/cpu/kernel_max`" -eq 11 ]; then
+  $skybox chmod 0644 $CPU/cpu6/online;
+  $skybox chmod 0644 $CPU/cpu7/online;
+  $skybox chmod 0644 $CPU/cpu8/online;
+  $skybox chmod 0644 $CPU/cpu9/online;
+  $skybox chmod 0644 $CPU/cpu10/online;
+  $skybox chmod 0644 $CPU/cpu11/online;
+  $skybox echo 1 > $CPU/cpu6/online;
+  $skybox echo 1 > $CPU/cpu7/online;
+  $skybox echo 1 > $CPU/cpu8/online;
+  $skybox echo 1 > $CPU/cpu9/online;
+  $skybox echo 1 > $CPU/cpu10/online;
+  $skybox echo 1 > $CPU/cpu11/online;
+  $skybox chmod 0444 $CPU/cpu6/online;
+  $skybox chmod 0444 $CPU/cpu7/online;
+  $skybox chmod 0444 $CPU/cpu8/online;
+  $skybox chmod 0444 $CPU/cpu9/online;
+  $skybox chmod 0444 $CPU/cpu10/online;
+  $skybox chmod 0444 $CPU/cpu11/online;
+  elif [ "`$skybox cat /sys/devices/system/cpu/kernel_max`" -eq 15 ]; then
+  $skybox chmod 0644 $CPU/cpu8/online;
+  $skybox chmod 0644 $CPU/cpu9/online;
+  $skybox chmod 0644 $CPU/cpu10/online;
+  $skybox chmod 0644 $CPU/cpu11/online;
+  $skybox chmod 0644 $CPU/cpu12/online;
+  $skybox chmod 0644 $CPU/cpu13/online;
+  $skybox chmod 0644 $CPU/cpu14/online;
+  $skybox chmod 0644 $CPU/cpu15/online;
+  $skybox echo 1 > $CPU/cpu8/online;
+  $skybox echo 1 > $CPU/cpu9/online;
+  $skybox echo 1 > $CPU/cpu10/online;
+  $skybox echo 1 > $CPU/cpu11/online;
+  $skybox echo 1 > $CPU/cpu12/online;
+  $skybox echo 1 > $CPU/cpu13/online;
+  $skybox echo 1 > $CPU/cpu14/online;
+  $skybox echo 1 > $CPU/cpu15/online;
+  $skybox chmod 0444 $CPU/cpu8/online;
+  $skybox chmod 0444 $CPU/cpu9/online;
+  $skybox chmod 0444 $CPU/cpu10/online;
+  $skybox chmod 0444 $CPU/cpu11/online;
+  $skybox chmod 0444 $CPU/cpu12/online;
+  $skybox chmod 0444 $CPU/cpu13/online;
+  $skybox chmod 0444 $CPU/cpu14/online;
+  $skybox chmod 0444 $CPU/cpu15/online;
+  else
+  $skybox sleep 0.5
+  fi;
+ fi;
+   
+   if [ -e /system/etc/init.d/SKYNET3]; then
+   $skybox sysctl -e -w vm.dirty_background_ratio=70
+   $skybox sysctl -e -w vm.dirty_ratio=90
+   $skybox sysctl -e -w vm.dirty_expire_centisecs=200
+   $skybox sysctl -e -w vm.dirty_writeback_centisecs=500
+   $skybox sysctl -e -w vm.vfs_cache_pressure=20
+   elif [ -e /system/etc/init.d/SKYNET1 ]; then
+   $skybox sysctl -e -w vm.dirty_background_ratio=40
+   $skybox sysctl -e -w vm.dirty_ratio=20
+   $skybox sysctl -e -w vm.dirty_expire_centisecs=200
+   $skybox sysctl -e -w vm.dirty_writeback_centisecs=500
+   $skybox sysctl -e -w vm.vfs_cache_pressure=60
+   else
+   $skybox sysctl -e -w vm.dirty_ratio=60
+   $skybox sysctl -e -w vm.dirty_background_ratio=10
+   $skybox sysctl -e -w vm.dirty_expire_centisecs=200
+   $skybox sysctl -e -w vm.dirty_writeback_centisecs=500
+   $skybox sysctl -e -w vm.vfs_cache_pressure=20
+   fi; 
+fi;
+
+AWAKE=;
+fi;
+
+SLEEPING=`$skybox cat /sys/power/wait_for_fb_sleep`;
+if [ $SLEEPING = "sleeping" ]; then
+
+$skybox echo "=====* STATUS : Sleeping at $( date +"%m-%d-%Y %H:%M:%S" )" | $skybox tee -a $PMB;
+$skybox sleep $SLEEP_TIME
+$skybox sysctl -e -w vm.dirty_background_ratio=5
+$skybox sysctl -e -w vm.dirty_expire_centisecs=6000
+$skybox sysctl -e -w vm.dirty_ratio=10
+$skybox sysctl -e -w vm.dirty_writeback_centisecs=500
+$skybox sysctl -e -w vm.vfs_cache_pressure=10
+
+ if [ ! -e /system/etc/init.d/SKYNET1 ] && [ ! -e /system/etc/init.d/OC ]; then 
+  if [ "`$skybox cat /sys/devices/system/cpu/kernel_max`" -eq 1 ]; then 
+  $skybox chmod 0644 $CPU/cpu1/online;
+  $skybox echo 0 > $CPU/cpu1/online;
+  $skybox chmod 0444 $CPU/cpu1/online;
+  elif [ "`$skybox cat /sys/devices/system/cpu/kernel_max`" -eq 3 ]; then
+  $skybox chmod 0644 $CPU/cpu2/online;
+  $skybox chmod 0644 $CPU/cpu3/online;
+  $skybox echo 0 > $CPU/cpu2/online;
+  $skybox echo 0 > $CPU/cpu3/online;
+  $skybox chmod 0444 $CPU/cpu2/online;
+  $skybox chmod 0444 $CPU/cpu3/online;
+  elif [ "`$skybox cat /sys/devices/system/cpu/kernel_max`" -eq 7 ]; then
+  $skybox chmod 0644 $CPU/cpu4/online;
+  $skybox chmod 0644 $CPU/cpu5/online;
+  $skybox chmod 0644 $CPU/cpu6/online;
+  $skybox chmod 0644 $CPU/cpu7/online;
+  $skybox echo 0 > $CPU/cpu4/online;
+  $skybox echo 0 > $CPU/cpu5/online;
+  $skybox echo 0 > $CPU/cpu6/online;
+  $skybox echo 0 > $CPU/cpu7/online;
+  $skybox chmod 0444 $CPU/cpu4/online;
+  $skybox chmod 0444 $CPU/cpu5/online;
+  $skybox chmod 0444 $CPU/cpu6/online;
+  $skybox chmod 0444 $CPU/cpu7/online;
+  elif [ "`$skybox cat /sys/devices/system/cpu/kernel_max`" -eq 11 ]; then
+  $skybox chmod 0644 $CPU/cpu6/online;
+  $skybox chmod 0644 $CPU/cpu7/online;
+  $skybox chmod 0644 $CPU/cpu8/online;
+  $skybox chmod 0644 $CPU/cpu9/online;
+  $skybox chmod 0644 $CPU/cpu10/online;
+  $skybox chmod 0644 $CPU/cpu11/online;
+  $skybox echo 0 > $CPU/cpu6/online;
+  $skybox echo 0 > $CPU/cpu7/online;
+  $skybox echo 0 > $CPU/cpu8/online;
+  $skybox echo 0 > $CPU/cpu9/online;
+  $skybox echo 0 > $CPU/cpu10/online;
+  $skybox echo 0 > $CPU/cpu11/online;
+  $skybox chmod 0444 $CPU/cpu6/online;
+  $skybox chmod 0444 $CPU/cpu7/online;
+  $skybox chmod 0444 $CPU/cpu8/online;
+  $skybox chmod 0444 $CPU/cpu9/online;
+  $skybox chmod 0444 $CPU/cpu10/online;
+  $skybox chmod 0444 $CPU/cpu11/online;
+  elif [ "`$skybox cat /sys/devices/system/cpu/kernel_max`" -eq 15 ]; then
+  $skybox chmod 0644 $CPU/cpu8/online;
+  $skybox chmod 0644 $CPU/cpu9/online;
+  $skybox chmod 0644 $CPU/cpu10/online;
+  $skybox chmod 0644 $CPU/cpu11/online;
+  $skybox chmod 0644 $CPU/cpu12/online;
+  $skybox chmod 0644 $CPU/cpu13/online;
+  $skybox chmod 0644 $CPU/cpu14/online;
+  $skybox chmod 0644 $CPU/cpu15/online;
+  $skybox echo 0 > $CPU/cpu8/online;
+  $skybox echo 0 > $CPU/cpu9/online;
+  $skybox echo 0 > $CPU/cpu10/online;
+  $skybox echo 0 > $CPU/cpu11/online;
+  $skybox echo 0 > $CPU/cpu12/online;
+  $skybox echo 0 > $CPU/cpu13/online;
+  $skybox echo 0 > $CPU/cpu14/online;
+  $skybox echo 0 > $CPU/cpu15/online;
+  $skybox chmod 0444 $CPU/cpu8/online;
+  $skybox chmod 0444 $CPU/cpu9/online;
+  $skybox chmod 0444 $CPU/cpu10/online;
+  $skybox chmod 0444 $CPU/cpu11/online;
+  $skybox chmod 0444 $CPU/cpu12/online;
+  $skybox chmod 0444 $CPU/cpu13/online;
+  $skybox chmod 0444 $CPU/cpu14/online;
+  $skybox chmod 0444 $CPU/cpu15/online;
+  else
+  $skybox sleep 0.5
+  fi;
+ fi;
+
+SLEEPING=;
+fi;    
+done &);
+
+fi;

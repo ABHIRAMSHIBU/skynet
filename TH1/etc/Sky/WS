@@ -1,0 +1,59 @@
+#!/system/etc/Sky/skybox sh
+# PROJECT SKYNET 
+# Copyright CYBERDYNE (C) 2016 K1ks
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+skybox=/system/etc/Sky/skybox
+
+$skybox mount -o remount,rw / 2>/dev/null
+$skybox mount -o remount,rw / / 2>/dev/null
+$skybox mount -o remount,rw rootfs 2>/dev/null
+$skybox mount -o remount,rw /system 2>/dev/null
+$skybox mount -o remount,rw /system /system 2>/dev/null
+
+mount -o remount,rw / 2>/dev/null
+mount -o remount,rw / / 2>/dev/null
+mount -o remount,rw rootfs 2>/dev/null
+mount -o remount,rw /system 2>/dev/null
+mount -o remount,rw /system /system 2>/dev/null
+
+PMB=/system/etc/Sky/WS.log
+
+if [ -e $PMB ]; then
+$skybox rm $PMB;
+fi;
+
+$skybox touch $PMB; 
+$skybox echo "# STARTING UP OF SKYNET CONTROL CENTER : $( date +"%m-%d-%Y %H:%M:%S" )" | $skybox tee -a $PMB;
+$skybox echo "" | $skybox tee -a $PMB;
+
+# Wifi Sleep =========================================#
+
+# wait value = 10 seconds
+sqlite=/system/etc/Sky/sqlite3;
+wait=10000;
+
+RETURN_VALUE=$($sqlite /data/data/com.android.providers.settings/databases/settings.db "select value from secure where name='wifi_idle_ms'");
+
+if [ $RETURN_VALUE='' ] 
+then
+$sqlite /data/data/com.android.providers.settings/databases/settings.db "insert into secure (name, value) values ('wifi_idle_ms', $wait )"
+$skybox echo "Creating row with wifi_idle_ms value: $wait..." | $skybox tee -a $PMB;
+else
+$sqlite /data/data/com.android.providers.settings/databases/settings.db "update secure set value=$wait where name='wifi_idle_ms'"
+$skybox echo "Updating wifi_idle_ms value from $RETURN_VALUE to $wait..." | $skybox tee -a $PMB;
+fi;
+
+$skybox echo "" | $skybox tee -a $PMB;
+$skybox echo "=====* Wifi Sleep = Activated..." | $skybox tee -a $PMB
+$skybox echo "" | $skybox tee -a $PMB;
+$skybox echo "# END OF THE SKYNET CONTROL CENTER : $( date +"%m-%d-%Y %H:%M:%S" ) " | $skybox tee -a $PMB;

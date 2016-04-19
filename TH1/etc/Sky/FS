@@ -1,0 +1,62 @@
+#!/system/etc/Sky/skybox sh
+# PROJECT SKYNET
+# Copyright CYBERDYNE (C) 2016 K1ks
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+skybox=/system/etc/Sky/skybox
+
+$skybox mount -o remount,rw / 2>/dev/null
+$skybox mount -o remount,rw / / 2>/dev/null
+$skybox mount -o remount,rw rootfs 2>/dev/null
+$skybox mount -o remount,rw /system 2>/dev/null
+$skybox mount -o remount,rw /system /system 2>/dev/null
+
+mount -o remount,rw / 2>/dev/null
+mount -o remount,rw / / 2>/dev/null
+mount -o remount,rw rootfs 2>/dev/null
+mount -o remount,rw /system 2>/dev/null
+mount -o remount,rw /system /system 2>/dev/null
+
+PMB=/system/etc/Sky/FS.log
+
+if [ -e $PMB ]; then
+$skybox rm $PMB;
+fi
+
+$skybox touch $PMB;
+$skybox echo "# STARTING UP OF SKYNET CONTROL CENTER : $( date +"%m-%d-%Y %H:%M:%S" )" | $skybox tee -a $PMB;
+$skybox echo "" | $skybox tee -a $PMB;
+
+# Scheduler Kernel =========================================#
+
+if [ -e /sys/kernel/debug/sched_features ]; then
+
+ $skybox mount -t debugfs none /sys/kernel/debug
+ $skybox echo "NO_NEW_FAIR_SLEEPERS" > /sys/kernel/debug/sched_features
+ $skybox echo "NO_NORMALIZED_SLEEPERS" > /sys/kernel/debug/sched_features
+ $skybox echo "NO_DOUBLE_TICK" > /sys/kernel/debug/sched_features
+ $skybox echo "NO_AFFINE_WAKEUPS" > /sys/kernel/debug/sched_features
+ $skybox echo "NO_NEXT_BUDDY" > /sys/kernel/debug/sched_features
+ $skybox echo "NO_WAKEUP_OVERLAP" > /sys/kernel/debug/sched_features
+ $skybox echo "NO_HRTICK" > /sys/kernel/debug/sched_features
+ $skybox echo "NO_CACHE_HOT_BUDDY" > /sys/kernel/debug/sched_features
+ $skybox echo "NO_LB_BIAS" > /sys/kernel/debug/sched_features
+ $skybox echo "NO_OWNER_SPIN" > /sys/kernel/debug/sched_features
+ $skybox echo "NO_START_DEBIT" > /sys/kernel/debug/sched_features
+
+ $skybox echo "=====* Scheduler Kernel = Activated..." | $skybox tee -a $PMB;
+ 
+else
+$skybox echo "=====* Scheduler Kernel = Not Available ( No Support )..." | $skybox tee -a $PMB;
+
+$skybox echo "" | $skybox tee -a $PMB;
+$skybox echo "# END OF THE SKYNET CONTROL CENTER : $( date +"%m-%d-%Y %H:%M:%S" ) " | $skybox tee -a $PMB;

@@ -1,0 +1,469 @@
+#!/system/etc/Sky/skybox sh
+# PROJECT SKYNET
+# Copyright CYBERDYNE (C) 2016 K1ks
+# Don't Steal or Modify this script if you don't know how to use it
+# Fuck you Stealer
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details. 
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+skybox=/system/etc/Sky/skybox
+
+$skybox mount -o remount,rw / 2>/dev/null
+$skybox mount -o remount,rw / / 2>/dev/null
+$skybox mount -o remount,rw rootfs 2>/dev/null
+$skybox mount -o remount,rw /system 2>/dev/null
+$skybox mount -o remount,rw /system /system 2>/dev/null
+
+mount -o remount,rw / 2>/dev/null
+mount -o remount,rw / / 2>/dev/null
+mount -o remount,rw rootfs 2>/dev/null
+mount -o remount,rw /system 2>/dev/null
+mount -o remount,rw /system /system 2>/dev/null
+
+PMB=/system/etc/Sky/SKYNET2.log
+
+if [ -e $PMB ]; then
+$skybox rm $PMB;
+fi
+
+$skybox touch $PMB;
+$skybox echo "#######################################" | $skybox tee -a $PMB;
+$skybox echo "" | $skybox tee -a $PMB;
+$skybox echo "# STARTING UP OF SKYNET CONTROL CENTER : $( date +"%m-%d-%Y %H:%M:%S" )" | $skybox tee -a $PMB;
+$skybox echo "" | $skybox tee -a $PMB;
+$skybox echo "#######################################" | $skybox tee -a $PMB;
+$skybox echo "" | $skybox tee -a $PMB;
+$skybox echo "=====* GENESYS VERSION RUNNING BALANCE MODE..." | $skybox tee -a $PMB
+$skybox echo "" | $skybox tee -a $PMB;
+
+# TOUCHSCREEN =========================================#
+
+if [ -e /sys/class/touch/switch/set_touchscreen ]; then
+$skybox echo "7035" > /sys/class/touch/switch/set_touchscreen
+$skybox echo "8002" > /sys/class/touch/switch/set_touchscreen
+$skybox echo "11000" > /sys/class/touch/switch/set_touchscreen
+$skybox echo "13060" > /sys/class/touch/switch/set_touchscreen
+$skybox echo "14005" > /sys/class/touch/switch/set_touchscreen
+$skybox echo "=====* Switch = Activated..." | tee -a $PMB
+fi;
+
+if [ -e /sys/devices/virtual/sec/sec_touchscreen/tsp_threshold ]; then
+$skybox echo "40" > /sys/devices/virtual/sec/sec_touchscreen/tsp_threshold
+$skybox echo "=====* Sec_touchscreen = Activated..." | tee -a $PMB
+fi;
+
+if [ -e /sys/devices/virtual/sec/sec_touchkey/touchkey_brightness ]; then
+$skybox echo "2700" > /sys/devices/virtual/sec/sec_touchkey/touchkey_brightness
+$skybox echo "=====* Virtual = Activated..." | tee -a $PMB
+fi;
+
+if [ -e /sys/devices/platform/kgsl/msm_kgsl/kgsl-3d0/io_fraction ]; then
+$skybox echo "50" > /sys/devices/platform/kgsl/msm_kgsl/kgsl-3d0/io_fraction
+$skybox echo "=====* Platform = Activated..." | tee -a $PMB
+fi;
+
+# Scroll_Speed =========================================#
+
+# Disable Scolling Cache for Faster Scrolling
+setprop persist.sys.scrollingcache 3
+$skybox echo "=====* Scolling Cache = Disabled..." | $skybox tee -a $PMB
+
+# Mediatek / Qualcomm Devices Tweak
+if [ -e /sys/module/tpd_setting/parameters/tpd_mode ]; then
+$skybox chmod 0644 /sys/module/tpd_setting/parameters/tpd_mode
+$skybox echo "1" > /sys/module/tpd_setting/parameters/tpd_mode
+$skybox chmod 0444 /sys/module/tpd_setting/parameters/tpd_mode
+$skybox echo "=====* Scroll Speed 1 = Activated..." | $skybox tee -a $PMB	
+elif [ -e /sys/module/hid_magicmouse/parameters/scroll_speed ]; then
+$skybox chmod 0644 /sys/module/hid_magicmouse/parameters/scroll_speed
+$skybox echo "63" > /sys/module/hid_magicmouse/parameters/scroll_speed
+$skybox chmod 0444 /sys/module/hid_magicmouse/parameters/scroll_speed
+$skybox echo "=====* Scroll Speed 2 = Activated..." | $skybox tee -a $PMB
+else
+$skybox echo "=====* Scroll Speed Not Supported..." | $skybox tee -a $PMB
+fi;
+
+# Launcher Keeper =========================================#
+# LMK List Commom Launchers for Priority
+
+list="com.jiubang.go.mini.launcher com.kkmlauncher-1 com.uprui.launcher.marshmallow com.android.launcher org.adw.launcher org.adwfreak.launcher net.alamoapps.launcher com.anddoes.launcher com.android.lmt com.chrislacy.actionlauncher.pro com.cyanogenmod.trebuchet com.gau.go.launcherex com.gtp.nextlauncher com.miui.mihome2 com.mobint.hololauncher com.mobint.hololauncher.hd com.qihoo360.launcher com.teslacoilsw.launcher com.tsf.shell org.zeam com.sonyericsson.home com.xperiaZ5.home com.sonymobile.simplehome com.teslacoilsw.launcher.prime com.miui.home com.anddoes.launcher.pro-1 com.anddoes.launcher-2 com.actionlauncher.playstore com.lge.launcher2 com.sec.android.app.launcher com.sec.android.app.twlauncher com.gtp.nextlauncher";
+
+while sleep 60; do
+ for L in $list; do
+   if [ `$skybox pgrep $L | $skybox head -n 1` ]; then
+   LC=`$skybox pgrep $L`;
+   $skybox echo -17 > /proc/$LC/oom_adj;
+   $skybox chmod 100 /proc/$LC/oom_adj;
+   $skybox renice -18 $LC;
+   $skybox echo "=====* Launcher $L = Highest Priority..." | $skybox tee -a $PMB;
+   fi;
+ done;
+ exit;
+done& 
+
+# VM Tweaks =========================================#
+
+ram=$((`$skybox awk '/MemTotal/{print $2}' /proc/meminfo`/1024))
+fs=$(($ram/4*256))
+
+$skybox sysctl -e -w vm.drop_caches=3
+$skybox sysctl -e -w vm.oom_kill_allocating_task=1
+$skybox sysctl -e -w vm.dirty_ratio=60
+$skybox sysctl -e -w vm.dirty_background_ratio=10
+$skybox sysctl -e -w vm.vfs_cache_pressure=20
+$skybox sysctl -e -w vm.overcommit_memory=1
+$skybox sysctl -e -w vm.overcommit_ratio=75
+$skybox sysctl -e -w vm.min_free_order_shift=3
+$skybox sysctl -e -w vm.laptop_mode=0
+$skybox sysctl -e -w vm.block_dump=0
+$skybox sysctl -e -w vm.oom_dump_tasks=1
+$skybox sysctl -e -w vm.swappiness=0
+$skybox sysctl -e -w vm.page-cluster=0
+$skybox sysctl -e -w vm.dirty_expire_centisecs=200
+$skybox sysctl -e -w vm.dirty_writeback_centisecs=500
+$skybox sysctl -e -w fs.lease-break-time=5
+$skybox sysctl -e -w fs.inotify.max_user_instances=256
+$skybox sysctl -e -w fs.inotify.max_user_watches=16384
+$skybox sysctl -e -w fs.inotify.max_queued_events=32768
+$skybox sysctl -e -w kernel.shmmni=1024
+$skybox sysctl -e -w kernel.shmall=262144
+$skybox sysctl -e -w kernel.msgmni=512
+$skybox sysctl -e -w fs.file-max=$fs
+$skybox sysctl -e -w vm.drop_caches=1
+
+$skybox echo "=====* Kernel VM = Activated..." | $skybox tee -a $PMB; 
+
+# Entropy  =========================================#
+
+if [ "`$skybox pgrep hwrng`" ]; then
+$skybox echo "=====* RnG detected , Skip Entropy..." | $skybox tee -a $PMB;
+else
+$skybox sysctl -e -w kernel.random.read_wakeup_threshold=1708
+$skybox sysctl -e -w kernel.random.write_wakeup_threshold=2048
+$skybox echo "=====* Large Entropy = Generated..." | $skybox tee -a $PMB; 
+fi;
+
+# VM Max Map =========================================#
+
+mem=`$skybox free | $skybox grep Mem | awk '{print $2}'`;
+
+if [ "$mem" -lt 256000 ];then
+$skybox sysctl -e -w vm.max_map_count=16378;
+$skybox echo "=====* VM Max Map = Activated for 256MB..." | $skybox tee -a $PMB; 
+
+elif [ "$mem" -lt 512000 ];then
+$skybox sysctl -e -w vm.max_map_count=32756;
+$skybox echo "=====* VM Max Map = Activated for 512MB..." | $skybox tee -a $PMB; 
+
+elif [ "$mem" -lt 768000 ];then
+$skybox sysctl -e -w vm.max_map_count=49134;
+$skybox echo "=====* VM Max Map = Activated for 768MB..." | $skybox tee -a $PMB; 
+
+elif [ "$mem" -lt 1024000 ];then
+$skybox sysctl -e -w vm.max_map_count=65512;
+$skybox echo "=====* VM Max Map = Activated for 1GB..." | $skybox tee -a $PMB; 
+
+elif [ "$mem" -lt 1280000 ];then
+$skybox sysctl -e -w vm.max_map_count=81890;
+$skybox echo "=====* VM Max Map = Activated for 1.2GB..." | $skybox tee -a $PMB; 
+
+elif [ "$mem" -lt 1536000 ];then
+$skybox sysctl -e -w vm.max_map_count=98268;
+$skybox echo "=====* VM Max Map = Activated for 1.5GB..." | $skybox tee -a $PMB; 
+
+elif [ "$mem" -lt 1792000 ];then
+$skybox sysctl -e -w vm.max_map_count=114646;
+$skybox echo "=====* VM Max Map = Activated for 1.7GB..." | $skybox tee -a $PMB; 
+
+elif [ "$mem" -lt 2048000 ];then
+$skybox sysctl -e -w vm.max_map_count=131024;
+$skybox echo "=====* VM Max Map = Activated for 2GB..." | $skybox tee -a $PMB; 
+
+elif [ "$mem" -lt 2304000 ];then
+$skybox sysctl -e -w vm.max_map_count=147402;
+$skybox echo "=====* VM Max Map = Activated for 2.3GB..." | $skybox tee -a $PMB; 
+
+elif [ "$mem" -lt 2560000 ];then
+$skybox sysctl -e -w vm.max_map_count=163780;
+$skybox echo "=====* VM Max Map = Activated for 2.5GB..." | $skybox tee -a $PMB; 
+
+elif [ "$mem" -lt 2816000 ];then
+$skybox sysctl -e -w vm.max_map_count=180158;
+$skybox echo "=====* VM Max Map = Activated for 2.8GB..." | $skybox tee -a $PMB; 
+
+else
+$skybox sysctl -e -w vm.max_map_count=196536;
+$skybox echo "=====* VM Max Map = Activated for +3GB..." | $skybox tee -a $PMB; 
+fi;
+
+# COMPLETE LMK BALANCE =========================================#
+
+MEM=`$skybox free -m | $skybox awk '/Mem:/{print $2}'`
+
+HP=$((MEM/4));
+HG=$((HP/2));
+
+setprop dalvik.vm.heapsize $HP"m"
+setprop dalvik.vm.heapgrowthlimit $HG"m"
+
+$skybox echo "=====* VM Heapsize for $MEM = Activated..." | $skybox tee -a $PMB; 
+
+FP=$((($MEM*1/100)*1024/4));
+VP=$((($MEM*2/100)*1024/4));
+SR=$((($MEM*5/100)*1024/4));
+HP=$((($MEM*16/100)*1024/4));
+CR=$((($MEM*17/100)*1024/4));
+EP=$((($MEM*19/100)*1024/4));
+
+$skybox chmod 0644 /sys/module/lowmemorykiller/parameters/minfree;
+$skybox echo "$FP,$VP,$SR,$HP,$CR,$EP" >> /sys/module/lowmemorykiller/parameters/minfree;
+$skybox chmod 0444 /sys/module/lowmemorykiller/parameters/minfree;
+
+$skybox chmod 0644 /sys/module/lowmemorykiller/parameters/adj;
+$skybox echo "0,1,3,5,10,15" >> /sys/module/lowmemorykiller/parameters/adj;
+$skybox chmod 0444 /sys/module/lowmemorykiller/parameters/adj;
+
+if [ -e /sys/module/lowmemorykiller/parameters/cost ]; then
+$skybox chmod 0644 /sys/module/lowmemorykiller/parameters/cost;
+$skybox echo "32" >> /sys/module/lowmemorykiller/parameters/cost;
+$skybox chmod 0444 /sys/module/lowmemorykiller/parameters/cost;
+fi;
+
+MFK=$(($SR*2/9))
+MFK1=$(($SR*2/6))
+$skybox sysctl -e -w vm.min_free_kbytes=$MFK;
+
+if [ -e /proc/sys/vm/extra_free_kbytes ]; then
+$skybox sysctl -e -w vm.extra_free_kbytes=$MFK1;
+fi;
+
+if [ -e /sys/module/lowmemorykiller/parameters/lmk_fast_run ]; then
+$skybox echo "1" > /sys/module/lowmemorykiller/parameters/lmk_fast_run;
+fi;
+
+if [ -e /sys/module/lowmemorykiller/parameters/debug_adj ]; then
+$skybox echo "0" > /sys/module/lowmemorykiller/parameters/debug_adj;
+fi;
+
+if [ -e /sys/module/lowmemorykiller/parameters/debug_adj ]; then
+$skybox echo "0" > /sys/module/lowmemorykiller/parameters/debug_adj;
+fi;
+
+$skybox echo "=====* Lmk Balance Optimizer = Activated..." | $skybox tee -a $PMB;
+
+# DEBUGGING =========================================#
+
+for D in /sys/module/*
+do
+ 
+ if [ -e $D/parameters/debug_mask ]; then
+  $skybox echo "0" > $D/parameters/debug_mask
+ fi;
+
+done;
+
+$skybox echo "=====* Debugging Disable = Activated..." | $skybox tee -a $PMB; 
+
+# CPU MULTICORE POWER SAVING =========================================#
+
+if [ -e /sys/devices/system/cpu/sched_mc_power_savings ]; then 
+$skybox echo "2" > /sys/devices/system/cpu/sched_mc_power_savings
+fi;
+
+if [ /sys/devices/system/cpu/sched_mc_power_savings=2 ]; then
+$skybox echo "=====* Multicore Power Saving = Activated..." | $skybox tee -a $PMB; else
+$skybox echo "=====* Multicore Power Saving = Not Activated..." | $skybox tee -a $PMB;
+fi;
+
+# MPDECISION / INTELLI-PLUG SCREEN-OFF SINGLE CORE =========================================#
+
+if [ -e /sys/kernel/msm_mpdecision/conf/scroff_single_core ]; then
+$skybox echo "1" > /sys/kernel/msm_mpdecision/conf/scroff_single_core
+$skybox echo "=====* MPDecision Eco-Mode = Activated..." | $skybox tee -a $PMB	
+
+elif [ -e /sys/kernel/autosmp/conf/scroff_single_core ]; then
+$skybox echo "1" > /sys/kernel/autosmp/conf/scroff_single_core
+$skybox echo "=====* MPDecision Eco-Mode = Activated..." | $skybox tee -a $PMB
+
+elif [ -e /sys/module/intelli_plug/parameters/eco_mode_active ]; then
+$skybox echo "1" > /sys/module/intelli_plug/parameters/eco_mode_active
+$skybox echo "=====* Intelli-Plug Eco-Mode = Activated..." | $skybox tee -a $PMB
+
+else
+$skybox echo "=====* Eco-Mode = Not Available ( No Support )..." | $skybox tee -a $PMB
+fi;
+
+# DYNAMIC Fsync =========================================#
+
+if [ -e /sys/kernel/dyn_fsync/Dyn_fsync_active ]; then
+$skybox echo "1" > /sys/kernel/dyn_fsync/Dyn_fsync_active
+fi;
+
+if [ /sys/kernel/dyn_fsync/Dyn_fsync_active=1 ]; then
+$skybox echo "=====* Dyn_fsync = Activated..." | $skybox tee -a $PMB; else
+$skybox echo "=====* Dyn_fsync = NOT Activated..." | $skybox tee -a $PMB;
+fi;
+
+# Scheduler Adjustments =========================================#
+
+WAY=`$skybox ls -d /sys/block/* 2>/dev/null`;
+
+for X in $WAY; do
+
+if [ -e $X/queue/rotational ]; then
+ $skybox echo "0" > $X/queue/rotational
+fi;
+if [ -e $X/queue/iostats ]; then
+ $skybox echo "0" > $X/queue/iostats
+fi;
+if [ -e $X/queue/nr_requests ]; then
+ $skybox echo "512" > $X/queue/nr_requests
+fi;
+if [ -e $X/queue/nomerges ]; then
+ $skybox echo "1" > $X/queue/nomerges
+fi;
+if [ -e $X/queue/rq_affinity ]; then
+ $skybox echo "1" > $X/queue/rq_affinity
+fi;
+if [ -e $X/queue/add_random ]; then
+ $skybox echo "0" > $X/queue/add_random
+fi;
+
+done
+$skybox echo "=====* Scheduler Adjustments = Activated..." | $skybox tee -a $PMB; 
+
+# SD Tuner =========================================#
+
+X=$(($MEM*1/4))
+
+$skybox echo $X > /sys/block/mmcblk0/queue/read_ahead_kb
+$skybox echo $X > /sys/devices/virtual/bdi/179:0/read_ahead_kb
+
+if [ /sys/devices/virtual/bdi/179:0/read_ahead_kb=$X ]; then
+$skybox echo "=====* System Read_Ahead SD = Activated for $X ..." | $skybox tee -a $PMB; else
+$skybox echo "=====* System Read_Ahead SD = Not Activated..." | $skybox tee -a $PMB;
+fi;
+
+# Essentiel SetProp =========================================#
+
+setprop touch.pressure.scale 0.001
+setprop ro.config.nocheckin 1
+setprop ro.kernel.android.checkjni 0
+setprop ro.kernel.checkjni 0
+setprop ro.max.fling_velocity 12000
+setprop ro.min.fling_velocity 8000
+setprop wifi.supplicant_scan_interval 180
+setprop windowsmgr.max_events_per_sec 76
+setprop persist.sys.purgeable_assets 1
+setprop profiler.force_disable_err_rpt 1
+setprop profiler.force_disable_ulog 1
+setprop persist.sys.use_dithering 0
+setprop debug.performance.tuning 1
+setprop video.accelerate.hw 1
+setprop persist.service.lgospd.enable 0
+setprop persist.service.pcsync.enable 0
+setprop pm.sleep_mode 1
+setprop ro.ril.disable.power.collapse 0
+setprop ro.ril.power_collapse 1
+
+if [ -e /dev/log/main ]; then
+$skybox rm /dev/log/main
+fi;
+
+if [ -e /dev/log/main ]; then
+$skybox echo "=====* SetProp = Not Activated..." | $skybox tee -a $PMB; else
+$skybox echo "=====* SetProp = Activated..." | $skybox tee -a $PMB;
+fi;
+
+# CLEANER =========================================#
+
+$skybox rm -f /cache/*.apk
+$skybox rm -f /cache/*.tmp
+$skybox rm -f /cache/*.log
+$skybox rm -f /cache/*.txt
+$skybox rm -f /data/*.log
+$skybox rm -f /data/*.txt
+$skybox rm -f /data/anr/*.log
+$skybox rm -f /data/anr/*.txt
+$skybox rm -f /data/backup/pending/*.tmp
+$skybox rm -f /data/cache/*.*
+$skybox rm -f /data/data/*.log
+$skybox rm -f /data/data/*.txt
+$skybox rm -f /data/dalvik-cache/*.apk
+$skybox rm -f /data/dalvik-cache/*.tmp
+$skybox rm -f /data/log/*.log
+$skybox rm -f /data/log/*.txt
+$skybox rm -f /data/local/*.apk
+$skybox rm -f /data/local/*.log
+$skybox rm -f /data/local/*.txt
+$skybox rm -f /data/local/tmp/*.log
+$skybox rm -f /data/local/tmp/*.txt
+$skybox rm -f /data/last_alog/*.log
+$skybox rm -f /data/last_alog/*.txt
+$skybox rm -f /data/last_kmsg/*.log
+$skybox rm -f /data/last_kmsg/*.txt
+$skybox rm -f /data/mlog/*
+$skybox rm -f /data/tombstones/*.log
+$skybox rm -f /data/tombstones/*.txt
+$skybox rm -f /data/system/*.log
+$skybox rm -f /data/system/*.txt
+$skybox rm -f /data/system/dropbox/*.log
+$skybox rm -f /data/system/dropbox/*.txt
+$skybox rm -f /data/system/usagestats/*.log
+$skybox rm -f /data/system/usagestats/*.txt
+$skybox chmod -f 0000 /data/tombstones
+
+$skybox echo "=====* Clean Up System = Activated..." | $skybox tee -a $PMB;
+
+# STARTUP MANAGER =========================================#
+
+if [ -s /system/etc/Sky/startup.txt ]; then
+ for START in `$skybox cat /system/etc/Sky/startup.txt`; do
+ $skybox pkill -9 $START
+ $skybox echo "=====* Apps Killed at Startup : $START" | $skybox tee -a $PMB
+ done;
+fi;
+
+# MISC =========================================#
+
+if [ -e /sys/class/lcd/panel/power_reduce ]; then
+$skybox echo "=====* LCD Power = Activated..." | $skybox tee -a $PMB	
+$skybox echo "1" > /sys/class/lcd/panel/power_reduce
+fi;
+
+if [ -e /sys/module/lpm_levels/parameters/sleep_disabled ]; then
+$skybox echo "=====* LP Mode = Activated..." | $skybox tee -a $PMB	
+$skybox echo "0" > /sys/module/lpm_levels/parameters/sleep_disabled
+fi;
+
+if [ -e /sys/kernel/fast_charge/force_fast_charge ]; then
+$skybox echo "=====* Fast Charge = Activated..." | $skybox tee -a $PMB	
+$skybox echo "1" > /sys/kernel/fast_charge/force_fast_charge
+fi;
+
+if [ -e /sys/module/workqueue/parameters/power_efficient ]; then
+$skybox chmod 0644 /sys/module/workqueue/parameters/power_efficient
+$skybox echo "1" > /sys/module/workqueue/parameters/power_efficient
+$skybox echo "=====* Power Save Workqueues = Activated..." | $skybox tee -a $PMB; 
+fi;
+
+if [ -e /sys/module/subsystem_restart/parameters/enable_ramdumps ]; then
+$skybox chmod 0644 /sys/module/subsystem_restart/parameters/enable_ramdumps
+$skybox echo "0" > /sys/module/subsystem_restart/parameters/enable_ramdumps
+$skybox echo "=====* RAMDumps = Disabled..." | $skybox tee -a $PMB;
+fi;
+
+$skybox echo "" | $skybox tee -a $PMB;
+$skybox echo "#######################################" | $skybox tee -a $PMB;
+$skybox echo "" | $skybox tee -a $PMB;
+$skybox echo "# END OF THE SKYNET CONTROL CENTER : $( date +"%m-%d-%Y %H:%M:%S" ) " | $skybox tee -a $PMB;
+$skybox echo "" | $skybox tee -a $PMB;
+$skybox echo "#######################################" | $skybox tee -a $PMB;

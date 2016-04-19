@@ -1,0 +1,32 @@
+skybox = /system/etc/Sky/skybox
+. colors
+$skybox clear
+$skybox echo -e "$color_fg_red""************************************************************""$color_reset"
+$skybox echo -e "$color_fg_blue""                  Skynet""$color_fg_red"" selinux selection!""$color_reset"
+$skybox echo -e "$color_fg_red""************************************************************""$color_reset"
+$skybox echo -e "$color_fg_green""                      By Abhiram Shibu""$color_reset"
+$skybox echo -e "$color_fg_yellow""------------------------------------------------------------""$color_reset"
+$skybox echo -e "$color_fg_red""  Please dont blame me if something happens to your phone              I will not take any responsibility for it""$color_reset"
+$skybox echo -e "$color_fg_yellow""------------------------------------------------------------""$color_reset"
+$skybox echo -e "$color_fg_green""Please choose an option for below""$color_reset"
+$skybox echo -e " "
+$skybox echo -e "1) Enforsing"
+$skybox echo -e "2) Permissive"
+$skybox echo -e "3) Exit"
+$skybox echo " "
+read charecter
+case $charecter in
+1) .//system/bin/setenforce 1
+.//system/bin/prompt
+$skybox echo "Bye"
+;;
+2) .//system/bin/setenforce 0
+.//system/bin/prompt
+$skybox echo "Bye"
+;;
+3) .//system/bin/prompt
+$skybox echo "Bye"
+;;
+*) .//system/bin/selinux
+;;
+esac

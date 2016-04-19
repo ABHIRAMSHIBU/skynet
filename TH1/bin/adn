@@ -1,0 +1,114 @@
+#!/system/etc/Sky/skybox sh
+# PROJECT SKYNET 
+# Copyright CYBERDYNE (C) 2016 K1ks
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+export PATH=/system/etc/Sky:$PATH:/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin:
+
+skybox=/system/etc/Sky/skybox
+
+$skybox mount -o remount,rw / 2>/dev/null
+$skybox mount -o remount,rw / / 2>/dev/null
+$skybox mount -o remount,rw rootfs 2>/dev/null
+$skybox mount -o remount,rw /system 2>/dev/null
+$skybox mount -o remount,rw /system /system 2>/dev/null
+
+mount -o remount,rw / 2>/dev/null
+mount -o remount,rw / / 2>/dev/null
+mount -o remount,rw rootfs 2>/dev/null
+mount -o remount,rw /system 2>/dev/null
+mount -o remount,rw /system /system 2>/dev/null
+
+if [ -e /system/etc/hosts.bak ]; then
+status="\e[1;32mON\e[0m"
+else
+status="\e[1;31mOFF\e[0m"
+fi;
+
+$skybox clear;
+$skybox clear
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e "  \e[1;37m ===========* PROJECT_SKYNET_GENISYS TX7 *============\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e " \e[1;31m        =============* KILL ADS *===============\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e "                     Protection = $status"
+$skybox echo ""
+$skybox echo "               ...Last updated 2016-07-04..."
+$skybox echo ""
+$skybox echo "                      1 - ENABLE" 
+$skybox echo ""
+$skybox echo "                      2 - DISABLE" 
+$skybox echo ""
+$skybox echo "                      3 - Back to Manager"
+$skybox echo ""
+$skybox echo -n "               ...What Do You Want To Do..?"               
+read character
+case $character in
+1) $skybox sleep 1
+if [ -e /system/etc/hosts.bak ]; then
+$skybox echo ""
+$skybox echo "                KIllADS Is Already Enabled"
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "                Sequential Startup KIllADS"
+$skybox sleep 2
+$skybox sleep 2
+$skybox mv -f /system/etc/hosts /system/etc/hosts.bak
+$skybox cp -f /system/etc/Sky/hosts /system/etc/hosts 
+$skybox chmod -f 0644 /system/etc/hosts
+$skybox chown -f 0:0 /system/etc/hosts
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Please reboot your device ASAP"
+$skybox sleep 1
+fi;;
+
+2) $skybox sleep 1
+if [ ! -e /system/etc/hosts.bak ]; then
+$skybox echo "" 
+$skybox echo "                KIllADS Is Already Disabled"
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "               Sequential Stop Over KIllADS"
+$skybox sleep 2
+
+if [ -e /system/etc/hosts.bak ]; then
+$skybox rm -f /system/etc/hosts
+$skybox mv -f /system/etc/hosts.bak /system/etc/hosts
+$skybox chmod -f 0644 /system/etc/hosts
+$skybox chown -f 0:0 /system/etc/hosts
+fi;
+
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "         OK ! Please reboot your device ASAP"
+$skybox sleep 1
+fi;;
+
+3) $skybox sleep 1
+$skybox echo ""
+$skybox echo "                  Go Back to Manager"
+$skybox sleep 1
+sh system/bin/menu
+esac
+$skybox sleep 1
+

@@ -1,0 +1,222 @@
+#!/system/etc/Sky/skybox sh
+# PROJECT SKYNET 
+# Copyright CYBERDYNE (C) 2016 K1ks
+#=======================================================================#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+export PATH=/system/etc/Sky:$PATH:/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin:
+
+skybox=/system/etc/Sky/skybox
+
+$skybox mount -o remount,rw / 2>/dev/null
+$skybox mount -o remount,rw / / 2>/dev/null
+$skybox mount -o remount,rw rootfs 2>/dev/null
+$skybox mount -o remount,rw /system 2>/dev/null
+$skybox mount -o remount,rw /system /system 2>/dev/null
+
+mount -o remount,rw / 2>/dev/null
+mount -o remount,rw / / 2>/dev/null
+mount -o remount,rw rootfs 2>/dev/null
+mount -o remount,rw /system 2>/dev/null
+mount -o remount,rw /system /system 2>/dev/null
+
+if [ -e /system/etc/init.d/SKYNET3 ]; then
+game="\e[1;32mON\e[0m"
+else
+game="\e[1;31mOFF\e[0m"
+fi;
+if [ -e /system/etc/init.d/SKYNET2 ]; then
+balance="\e[1;32mON\e[0m"
+else
+balance="\e[1;31mOFF\e[0m"
+fi;
+if [ -e /system/etc/init.d/SKYNET1 ]; then
+batt="\e[1;32mON\e[0m"
+else
+batt="\e[1;31mOFF\e[0m"
+fi;
+
+$skybox echo "TIPS :"
+$skybox echo "BATTERY : Battery Friendly"
+$skybox echo "BALANCE : Average Performance"
+$skybox echo "GAME    : Only For Heavy Game"
+
+$skybox sleep 4
+
+$skybox clear;
+
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e "  \e[1;37m ===========* PROJECT_SKYNET_GENISYS TX7 *============\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e " \e[1;31m       =============* MODE CONTROL *===============\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e " \e[1;31m***********************************************************\e[00;37;40m"
+$skybox echo ""
+$skybox echo -e "                   1 - BATTERY ...| $batt" 
+$skybox echo ""
+$skybox echo -e "                   2 - BALANCE ...| $balance" 
+$skybox echo ""
+$skybox echo -e "                   3 - GAME ...| $game" 
+$skybox echo ""
+$skybox echo -e "                   4 - Back to Manager..."
+$skybox echo ""
+$skybox echo -n "               ...What Do You Want To Do..?"             
+read character
+case $character in
+1) $skybox sleep 1
+if [ -e /system/etc/init.d/SKYNET1 ]; then
+$skybox echo ""
+$skybox echo "            Battery Mode Is Already Started"
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "            Sequential Startup Battery Mode"
+$skybox sleep 2
+
+if [ -e /system/etc/init.d/SKYNET1 ]; then
+$skybox rm -f /system/etc/init.d/SKYNET1
+fi;
+if [ -e /system/etc/init.d/SKYNET2 ]; then
+$skybox rm -f /system/etc/init.d/SKYNET2
+fi;
+if [ -e /system/etc/init.d/SKYNET3 ]; then
+$skybox rm -f /system/etc/init.d/SKYNET3
+fi;
+if [ -e /system/etc/Sky/SKYNET1.log ]; then
+$skybox rm -f /system/etc/Sky/SKYNET1.log
+fi;
+if [ -e /system/etc/Sky/SKYNET2.log ]; then
+$skybox rm -f /system/etc/Sky/SKYNET2.log
+fi;
+if [ -e /system/etc/Sky/SKYNET3.log ]; then
+$skybox rm -f /system/etc/Sky/SKYNET3.log
+fi;
+
+$skybox rm -f /data/system/batterystats.bin
+#$skybox rm -f /data/dalvik-cache/*
+#$skybox rm -f /data/tombstones/*
+#$skybox rm -f /data/data/boot-cache/*
+#$skybox rm -f /data/data/resource-cache/*
+#$skybox rm -f /cache/dalvik-cache/*
+
+$skybox cp -f /system/etc/Sky/SKYNET1 /system/etc/init.d
+$skybox chmod -f 0755 /system/etc/init.d/SKYNET1
+$skybox chown -f 0:0 /system/etc/init.d/SKYNET1
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Fast Option To Apply Changes ASAP"
+$skybox sleep 1
+fi;;
+
+2) $skybox sleep 1
+if [ -e /system/etc/init.d/SKYNET2 ]; then
+$skybox echo ""
+$skybox echo "            Balance Mode Is Already Started"
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "            Sequential Startup Balance Mode"
+$skybox sleep 2
+
+if [ -e /system/etc/init.d/SKYNET1 ]; then
+$skybox rm -f /system/etc/init.d/SKYNET1
+fi;
+if [ -e /system/etc/init.d/SKYNET2 ]; then
+$skybox rm -f /system/etc/init.d/SKYNET2
+fi;
+if [ -e /system/etc/init.d/SKYNET3 ]; then
+$skybox rm -f /system/etc/init.d/SKYNET3
+fi;
+if [ -e /system/etc/Sky/SKYNET1.log ]; then
+$skybox rm -f /system/etc/Sky/SKYNET1.log
+fi;
+if [ -e /system/etc/Sky/SKYNET2.log ]; then
+$skybox rm -f /system/etc/Sky/SKYNET2.log
+fi;
+if [ -e /system/etc/Sky/SKYNET3.log ]; then
+$skybox rm -f /system/etc/Sky/SKYNET3.log
+fi;
+
+$skybox rm -f /data/system/batterystats.bin
+#$skybox rm -f /data/dalvik-cache/*
+#$skybox rm -f /data/tombstones/*
+#$skybox rm -f /data/data/boot-cache/*
+#$skybox rm -f /data/data/resource-cache/*
+#$skybox rm -f /cache/dalvik-cache/*
+
+$skybox cp -f /system/etc/Sky/SKYNET2 /system/etc/init.d
+$skybox chmod -f 0755 /system/etc/init.d/SKYNET2
+$skybox chown -f 0:0 /system/etc/init.d/SKYNET2
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Fast Option To Apply Changes ASAP"
+$skybox sleep 1
+fi;;
+
+3) $skybox sleep 1
+if [ -e /system/etc/init.d/SKYNET3 ]; then
+$skybox echo ""
+$skybox echo "            Game Mode Is Already Started"
+else
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "            Sequential Startup Game Mode"
+$skybox sleep 2
+
+if [ -e /system/etc/init.d/SKYNET1 ]; then
+$skybox rm -f /system/etc/init.d/SKYNET1
+fi;
+if [ -e /system/etc/init.d/SKYNET2 ]; then
+$skybox rm -f /system/etc/init.d/SKYNET2
+fi;
+if [ -e /system/etc/init.d/SKYNET3 ]; then
+$skybox rm -f /system/etc/init.d/SKYNET3
+fi;
+if [ -e /system/etc/Sky/SKYNET1.log ]; then
+$skybox rm -f /system/etc/Sky/SKYNET1.log
+fi;
+if [ -e /system/etc/Sky/SKYNET2.log ]; then
+$skybox rm -f /system/etc/Sky/SKYNET2.log
+fi;
+if [ -e /system/etc/Sky/SKYNET3.log ]; then
+$skybox rm -f /system/etc/Sky/SKYNET3.log
+fi;
+
+$skybox rm -f /data/system/batterystats.bin
+#$skybox rm -f /data/dalvik-cache/*
+#$skybox rm -f /data/tombstones/*
+#$skybox rm -f /data/data/boot-cache/*
+#$skybox rm -f /data/data/resource-cache/*
+#$skybox rm -f /cache/dalvik-cache/*
+
+$skybox cp -f /system/etc/Sky/SKYNET3 /system/etc/init.d
+$skybox chmod -f 0755 /system/etc/init.d/SKYNET3
+$skybox chown -f 0:0 /system/etc/init.d/SKYNET3
+$skybox echo ""
+$skybox echo "***********************************************************"
+$skybox echo ""
+$skybox echo "           OK ! Fast Option To Apply Changes ASAP"
+$skybox sleep 1
+fi;;
+
+4) $skybox sleep 1
+$skybox echo ""
+$skybox echo "                  Go Back to Manager"
+$skybox sleep 1
+sh system/bin/menu
+esac
+$skybox sleep 1
