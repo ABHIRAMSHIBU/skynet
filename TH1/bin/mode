@@ -33,7 +33,7 @@ mount -o remount,rw /system /system 2>/dev/null
 case $( cat /sys/fs/selinux/enforce ) in
 0) selinux="$color_fg_green""Permissive""$color_reset"
 ;;
-1) selinux="$color_fg_red""Enforsing""$color_reset"
+1) selinux="$color_fg_red""Enforcing""$color_reset"
 ;;
 esac
 if [ -e /system/etc/init.d/XR ]; then

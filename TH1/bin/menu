@@ -87,7 +87,7 @@ $skybox echo ""
 $skybox echo -e "          \e[1;32m...SKYBOX VERSION : $box\e[0m"
 $skybox echo ""
 $skybox echo -e "                   \e[1;36mCopyright 2016 By K1ks\e[0m"
-$skybox echo ""
+$skybox echo -e "                   \e[1;36mModded by Abhiram Shibu\e[0m"
 $skybox echo -n "               ...What Do You Want To Do..?"                
 read character
 case $character in 
